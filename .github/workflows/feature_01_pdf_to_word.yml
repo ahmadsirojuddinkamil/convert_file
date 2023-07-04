@@ -1,9 +1,9 @@
 on:
   push:
     branches:
-      - develop
+      - feature_01_pdf_to_word
 
-name: Development
+name: feature_01_pdf_to_word
 
 jobs:
   ContinuousIntegration:
