@@ -1,0 +1,5 @@
+@include('layouts.home.header')
+@include('layouts.home.service')
+@include('layouts.home.testimoni')
+@include('layouts.home.comment')
+@include('layouts.home.footer')
