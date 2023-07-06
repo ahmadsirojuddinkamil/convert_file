@@ -10,7 +10,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pdfs', function (Blueprint $table) {
+        Schema::create('pngs', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
             $table->string('file');
@@ -24,6 +24,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('pdfs');
+        Schema::dropIfExists('pngs');
     }
 };
