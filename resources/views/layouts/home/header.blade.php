@@ -3,7 +3,7 @@
     <div class="container">
         <nav class="navbar navbar-dark navbar-expand-lg py-0">
 
-            <a href="index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <h1 class="text-white fw-bold d-block">High<span class="text-secondary">Convert</span> </h1>
             </a>
 

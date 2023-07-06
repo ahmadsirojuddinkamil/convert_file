@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\File;
 use App\Models\Pdf;
 use App\Models\Word;
 use Carbon\Carbon;
@@ -27,27 +26,27 @@ class DatabaseSeeder extends Seeder
 
         $faker = Faker::create('id_ID');
 
-        for ($i = 1; $i <= 5; $i++) {
+        // for ($i = 1; $i <= 5; $i++) {
 
-            $createdAt = $faker->dateTimeBetween('-5 years', 'now');
-            $updatedAt = Carbon::instance($createdAt)->addDays(rand(1, 7));
+        //     $createdAt = $faker->dateTimeBetween('-5 years', 'now');
+        //     $updatedAt = Carbon::instance($createdAt)->addDays(rand(1, 7));
 
-            Pdf::create([
-                'uuid' => $faker->uuid(),
-                'name' => $faker->name(),
-                'file' => $faker->text(),
-                'created_at' => $createdAt,
-                'updated_at' => $updatedAt,
-            ]);
+        //     Pdf::create([
+        //         'uuid' => $faker->uuid(),
+        //         'name' => $faker->name(),
+        //         'file' => $faker->text(),
+        //         'created_at' => $createdAt,
+        //         'updated_at' => $updatedAt,
+        //     ]);
 
-            Word::create([
-                'uuid' => $faker->uuid(),
-                'name' => $faker->name(),
-                'file' => $faker->text(),
-                'created_at' => $createdAt,
-                'updated_at' => $updatedAt,
-            ]);
+        //     Word::create([
+        //         'uuid' => $faker->uuid(),
+        //         'name' => $faker->name(),
+        //         'file' => $faker->text(),
+        //         'created_at' => $createdAt,
+        //         'updated_at' => $updatedAt,
+        //     ]);
 
-        }
+        // }
     }
 }

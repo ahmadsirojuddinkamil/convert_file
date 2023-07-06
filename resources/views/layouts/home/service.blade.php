@@ -12,12 +12,8 @@
                         <div class="services-content-icon">
                             <i class="fa fa-code fa-7x mb-4 text-primary"></i>
                             <h4 class="mb-4">Pdf To Word</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-
-                            <!-- <div>
-                                <label for="files" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Pdf File</label>
-                                <input id="files" style="visibility:hidden;" type="file">
-                            </div> -->
+                            <a href="/pdf_to_word"
+                                class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
                         </div>
                     </div>
                 </div>
