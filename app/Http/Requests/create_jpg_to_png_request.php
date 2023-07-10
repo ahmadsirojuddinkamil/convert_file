@@ -22,7 +22,7 @@ class create_jpg_to_png_request extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file|mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document|max:2048'
+            'file' => 'required|file|mimetypes:image/jpeg|max:2048',
         ];
     }
 }

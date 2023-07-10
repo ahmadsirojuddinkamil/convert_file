@@ -86,3 +86,21 @@
         text-shadow: 0 0 5px #1842B6;
     }
 </style>
+
+{{-- style list img --}}
+<style>
+    ul.horizontal-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    ul.horizontal-list li {
+        flex: 0 0 auto;
+        margin-right: 10px;
+        /* Atur jarak antara item */
+    }
+</style>

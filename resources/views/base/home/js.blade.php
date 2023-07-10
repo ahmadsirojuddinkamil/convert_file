@@ -5,6 +5,7 @@
 <script src="{{ asset('assets/home/lib/easing/easing.min.js') }}"></script>
 <script src="{{ asset('assets/home/lib/waypoints/waypoints.min.js') }}"></script>
 <script src="{{ asset('assets/home/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- Template Javascript -->
 <script src="{{ asset('assets/home/js/main.js') }}"></script>

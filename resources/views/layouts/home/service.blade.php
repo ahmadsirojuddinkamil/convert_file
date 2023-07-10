@@ -14,9 +14,11 @@
                     <div class="p-4 text-center services-content">
                         <div class="services-content-icon">
                             <i class="fa fa-file-code fa-7x mb-4 text-primary"></i>
+
                             <h4 class="mb-4">Jpg To Png</h4>
-                            <a href="/jpg_to_png"
-                                class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
+
+                            <a href="" id="show_convert_png"
+                                class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert now</a>
                         </div>
                     </div>
                 </div>
@@ -33,92 +35,17 @@
                     </div>
                 </div>
             </div>
-
-            {{-- <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".5s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fa fa-file-code fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Excel To Pdf</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".7s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fa fa-external-link-alt fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Pdf To Jpg</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".3s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fas fa-user-secret fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Jpg To Pdf</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".5s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fa fa-envelope-open fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Pdf To Png</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".7s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fas fa-laptop fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Png To Pdf</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".7s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fas fa-laptop fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Jpg To Png</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay=".7s">
-                <div class="services-item bg-light">
-                    <div class="p-4 text-center services-content">
-                        <div class="services-content-icon">
-                            <i class="fas fa-laptop fa-7x mb-4 text-primary"></i>
-                            <h4 class="mb-4">Png To Jpg</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
 
         </div>
     </div>
 </div>
 <!-- Services End -->
+
+<script>
+    const check_ownership_and_get_value = localStorage.getItem('ownership');
+    const get_id_link_show = document.getElementById('show_convert_png');
+
+    get_id_link_show.href = check_ownership_and_get_value ?
+        `/jpg_to_png/${check_ownership_and_get_value}/file` :
+        `/jpg_to_png`;
+</script>

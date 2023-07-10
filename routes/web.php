@@ -1,11 +1,7 @@
 <?php
 
 use App\Http\Controllers\jpg_to_png_controller;
-use App\Http\Controllers\word_to_pdf_controller;
 use Illuminate\Support\Facades\Route;
-
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('pages.home.index');
@@ -17,6 +13,8 @@ Route::get('/about', function () {
 
 Route::controller(jpg_to_png_controller::class)->group(function () {
     Route::get('/jpg_to_png', 'index');
-    // Route::post('/jpg_to_png', 'create');
-    Route::get('/jpg_to_png/create', 'create');
+    Route::get('/jpg_to_png/{save_uuid_show_from_click}/file', 'show');
+    Route::post('/jpg_to_png', 'create');
+    Route::get('/jpg_to_png/{save_uuid_download_from_click}/download', 'download');
+    Route::delete('/jpg_to_png/{save_uuid_delete_from_axios}', 'delete');
 });

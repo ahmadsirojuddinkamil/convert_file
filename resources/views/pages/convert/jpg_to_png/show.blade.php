@@ -9,16 +9,8 @@
     @include('base.home.css')
 </head>
 
-<script>
-    const checkOwnership = localStorage.getItem('ownership');
-
-    if (checkOwnership) {
-        window.location.href = '/'
-    }
-</script>
-
 <body>
-    @include('template.convert.pdf_to_word.index')
+    @include('template.convert.pdf_to_word.show')
     @include('base.home.js')
 </body>
 
