@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class create_jpg_to_png_request extends FormRequest
+class createJpgToPngRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

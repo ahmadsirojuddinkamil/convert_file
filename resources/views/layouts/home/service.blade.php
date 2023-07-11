@@ -17,7 +17,7 @@
 
                             <h4 class="mb-4">Jpg To Png</h4>
 
-                            <a href="" id="show_convert_png"
+                            <a href="" id="showConvertPng"
                                 class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert now</a>
                         </div>
                     </div>
@@ -42,10 +42,10 @@
 <!-- Services End -->
 
 <script>
-    const check_ownership_and_get_value = localStorage.getItem('ownership');
-    const get_id_link_show = document.getElementById('show_convert_png');
+    const checkOwnershipAndGetValue = localStorage.getItem('ownership');
+    const getIdLinkShow = document.getElementById('showConvertPng');
 
-    get_id_link_show.href = check_ownership_and_get_value ?
-        `/jpg_to_png/${check_ownership_and_get_value}/file` :
+    getIdLinkShow.href = checkOwnershipAndGetValue ?
+        `/jpg_to_png/${checkOwnershipAndGetValue}/file` :
         `/jpg_to_png`;
 </script>

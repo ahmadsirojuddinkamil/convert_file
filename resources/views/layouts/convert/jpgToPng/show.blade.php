@@ -35,19 +35,19 @@
         <div class="border border-dark mt-4 p-5 rounded">
             <ul class="horizontal-list">
 
-                @foreach ($find_and_get_data_file as $result_png)
+                @foreach ($findAndGetDataFile as $resultPng)
                     <li>
                         <ul>
                             <li class="mb-2 text-dark" style="list-style-type: none;">
-                                {{ Str::limit($result_png->name, 15) }}
+                                {{ Str::limit($resultPng->name, 15) }}
                             </li>
 
                             <li style="list-style-type: none;">
-                                <img src="{{ asset('storage/' . $result_png->file) }}" alt="" height="150px"
+                                <img src="{{ asset('storage/' . $resultPng->file) }}" alt="" height="150px"
                                     width="150px">
                             </li>
 
-                            <a href="/jpg_to_png/{{ $result_png->uuid }}/download"
+                            <a href="/jpg_to_png/{{ $resultPng->uuid }}/download"
                                 class="btn text-white bg-primary mt-2">Download</a>
                         </ul>
 
@@ -61,16 +61,16 @@
 </div>
 
 <script>
-    const check_ownership_and_get_value = localStorage.getItem('ownership');
+    const checkOwnershipAndGetValue = localStorage.getItem('ownership');
 
-    if (check_ownership_and_get_value) {
+    if (checkOwnershipAndGetValue) {
         document.getElementById('uuid').value = localStorage.getItem('ownership');
     }
 
     setTimeout(function() {
         localStorage.removeItem('ownership');
 
-        axios.delete(`/jpg_to_png/${check_ownership_and_get_value}`)
+        axios.delete(`/jpg_to_png/${checkOwnershipAndGetValue}`)
             .then(response => {
                 console.log(response.data);
             })
