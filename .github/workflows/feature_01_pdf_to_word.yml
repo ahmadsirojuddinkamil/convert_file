@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - feature_01_pdf_to_word
+
+name: feature_01_pdf_to_word
+
+# run ci
+
+jobs:
+  ContinuousIntegration:
+    name: Run Build, Unit Tests and Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Build apps
+        run: composer install
+
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit
+
+      - name: Launch Pint Linter
+        run: vendor/bin/pint --preset psr12
