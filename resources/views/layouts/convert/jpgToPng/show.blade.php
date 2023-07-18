@@ -15,21 +15,27 @@
         @endif
 
         <div>
-            <h1>JPG to PNG Converter show</h1>
+            <h1>JPG to PNG Converter</h1>
             <p>Convert your JPG to PNG documents with incredible accuracy.</p>
+            <p class=" text-danger">Files will be deleted after 15 minutes!</p>
         </div>
 
         <div>
             <form action="/jpg_to_png" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <label for="jpg" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Pdf File</label>
-                <input id="jpg" type="file" name="file" style="display:none" accept="image/jpeg">
+                <label for="jpg" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Jpg File</label>
+                <input id="jpg" type="file" name="file" style="display: none" accept="image/jpeg"
+                    onchange="previewImage(event)" onclick="resetInputValue()" required>
 
                 <input type="text" id="uuid" name="uuid" style="display:none" hidden>
 
                 <button type="submit" class="btn text-white bg-primary">Convert Now!</button>
             </form>
+        </div>
+
+        <div class=" d-flex justify-content-center">
+            <img id="preview" alt="Preview Image" style="display:none; max-width: 150px;" class=" mt-3">
         </div>
 
         <div class="border border-dark mt-4 p-5 rounded">
@@ -66,18 +72,4 @@
     if (checkOwnershipAndGetValue) {
         document.getElementById('uuid').value = localStorage.getItem('ownership');
     }
-
-    setTimeout(function() {
-        localStorage.removeItem('ownership');
-
-        axios.delete(`/jpg_to_png/${checkOwnershipAndGetValue}`)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-        window.location.href = '/';
-    }, 30 * 60 * 1000);
 </script>

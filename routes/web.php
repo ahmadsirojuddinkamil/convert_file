@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\jpgToPngController;
+use App\Http\Controllers\JpgToPngController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,7 +11,7 @@ Route::get('/about', function () {
     return view('pages.about.index');
 });
 
-Route::controller(jpgToPngController::class)->group(function () {
+Route::controller(JpgToPngController::class)->group(function () {
     Route::get('/jpg_to_png', 'index');
     Route::get('/jpg_to_png/{save_uuid_show_from_click}/file', 'show');
     Route::post('/jpg_to_png', 'create');

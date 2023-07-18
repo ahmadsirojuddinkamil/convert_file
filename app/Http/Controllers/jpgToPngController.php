@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\createJpgToPngRequest;
-use App\Models\{Jpg, Png};
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Ramsey\Uuid\Uuid;
+use App\Http\Requests\CreateJpgToPngRequest;
+use App\Models\Png;
+use App\Services\JpgToPngService;
 
-class jpgToPngController extends Controller
+class JpgToPngController extends Controller
 {
     public function index()
     {
@@ -17,7 +15,7 @@ class jpgToPngController extends Controller
 
     public function show($saveUuidShowFromRoute)
     {
-        $findAndGetDataFile = Png::where('uuid', $saveUuidShowFromRoute)->latest()->get();
+        $findAndGetDataFile = Png::FindPngByUuid($saveUuidShowFromRoute)->latest()->get();
 
         if (!$findAndGetDataFile) {
             abort(404);
@@ -26,31 +24,11 @@ class jpgToPngController extends Controller
         }
     }
 
-    public function create(createJpgToPngRequest $request)
+    public function create(CreateJpgToPngRequest $request, JpgToPngService $jpgToPngService)
     {
         $validateData = $request->validated();
 
-        $jpgFilePath = $validateData['file']->store('public/document_jpg_to_png');
-        $jpgFilePath = str_replace('public/', '', $jpgFilePath);
-
-        $pngFilePath = str_replace('.jpg', '.png', $jpgFilePath);
-
-        $image = Image::make(storage_path('app/public/' . $jpgFilePath));
-        $image->encode('png', 100)->save(storage_path('app/public/' . $pngFilePath));
-
-        $dataUuidLocalStorage = $request->uuid;
-        $dataFile = Jpg::create([
-            'uuid' => $dataUuidLocalStorage ?? Uuid::uuid4()->toString(),
-            'name' => $validateData['file']->getClientOriginalName(),
-            'file' => $jpgFilePath,
-        ]);
-
-        Png::create([
-            'jpg_id' => $dataFile->id,
-            'uuid' => $dataFile['uuid'],
-            'name' => pathinfo($validateData['file']->getClientOriginalName(), PATHINFO_FILENAME) . '.png',
-            'file' => 'document_jpg_to_png/' . basename($pngFilePath),
-        ]);
+        $dataFile = $jpgToPngService->convertAndSave($validateData['file'], $request->uuid);
 
         return redirect('/jpg_to_png/'. $dataFile['uuid'] . '/file')->with([
             'uuid' => $dataFile['uuid'],
@@ -60,7 +38,7 @@ class jpgToPngController extends Controller
 
     public function download($saveUuidDownloadFromRoute)
     {
-        $png = Png::where('uuid', $saveUuidDownloadFromRoute)->firstOrFail();
+        $png = Png::FindPngByUuid($saveUuidDownloadFromRoute)->firstOrFail();
 
         $box = 'storage/' . $png->file;
         $fileName = pathinfo($png->name, PATHINFO_FILENAME) . '.png';
@@ -68,25 +46,8 @@ class jpgToPngController extends Controller
         return response()->download($box, $fileName);
     }
 
-    public function delete($saveUuidDeleteFromRoute)
+    public function delete($saveUuidDeleteFromRoute, JpgToPngService $jpgToPngService)
     {
-        $findAndGetFileJpg = Jpg::where('uuid', $saveUuidDeleteFromRoute)->get();
-        $findAndGetFilePng = Png::where('uuid', $saveUuidDeleteFromRoute)->get();
-
-        foreach ($findAndGetFileJpg as $resultJpg) {
-            if ($resultJpg->file) {
-                Storage::delete('public/' . $resultJpg->file);
-            }
-            $resultJpg->delete();
-        }
-
-        foreach ($findAndGetFilePng as $resultPng) {
-            if ($resultPng->file) {
-                Storage::delete('public/' . $resultPng->file);
-            }
-            $resultPng->delete();
-        }
-
-        Jpg::where('uuid', $saveUuidDeleteFromRoute)->delete();
+        return $jpgToPngService->deleteFilePng($saveUuidDeleteFromRoute);
     }
 }

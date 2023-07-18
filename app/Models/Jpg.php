@@ -21,4 +21,10 @@ class Jpg extends Model
     {
         return $this->belongsToMany(Png::class, 'png_id');
     }
+
+    // Query
+    public function scopeFindJpgByUuid($query, $saveUuid)
+    {
+        return $query->where('uuid', $saveUuid);
+    }
 }
