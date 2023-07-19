@@ -12,6 +12,7 @@ class Jpg extends Model
     protected $fillable = [
         'png_id',
         'uuid',
+        'unique_id',
         'file',
         'name',
     ];
@@ -26,5 +27,10 @@ class Jpg extends Model
     public function scopeFindJpgByUuid($query, $saveUuid)
     {
         return $query->where('uuid', $saveUuid);
+    }
+
+    public function scopeFindJpgByUniqueId($query, $saveUuid)
+    {
+        return $query->where('unique_id', $saveUuid);
     }
 }

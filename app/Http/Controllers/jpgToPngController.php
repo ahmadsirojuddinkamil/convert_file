@@ -17,7 +17,7 @@ class JpgToPngController extends Controller
     {
         $findAndGetDataFile = Png::FindPngByUuid($saveUuidShowFromRoute)->latest()->get();
 
-        if (!$findAndGetDataFile) {
+        if ($findAndGetDataFile->isEmpty()) {
             abort(404);
         } else {
             return view('pages.convert.jpgToPng.show', compact('findAndGetDataFile'));
@@ -38,16 +38,11 @@ class JpgToPngController extends Controller
 
     public function download($saveUuidDownloadFromRoute)
     {
-        $png = Png::FindPngByUuid($saveUuidDownloadFromRoute)->firstOrFail();
+        $png = Png::FindPngByUniqueId($saveUuidDownloadFromRoute)->firstOrFail();
 
         $box = 'storage/' . $png->file;
         $fileName = pathinfo($png->name, PATHINFO_FILENAME) . '.png';
 
         return response()->download($box, $fileName);
-    }
-
-    public function delete($saveUuidDeleteFromRoute, JpgToPngService $jpgToPngService)
-    {
-        return $jpgToPngService->deleteFilePng($saveUuidDeleteFromRoute);
     }
 }

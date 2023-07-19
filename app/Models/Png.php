@@ -12,6 +12,7 @@ class Png extends Model
     protected $fillable = [
         'jpg_id',
         'uuid',
+        'unique_id',
         'file',
         'name',
     ];
@@ -26,5 +27,10 @@ class Png extends Model
     public function scopeFindPngByUuid($query, $saveUuid)
     {
         return $query->where('uuid', $saveUuid);
+    }
+
+    public function scopeFindPngByUniqueId($query, $saveUuid)
+    {
+        return $query->where('unique_id', $saveUuid);
     }
 }

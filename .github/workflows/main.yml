@@ -1,11 +1,9 @@
 on:
   push:
     branches:
-      - feature_01_pdf_to_word
+      - feature_02_png_tp_jpg
 
-name: feature_01_pdf_to_word
-
-# run ci
+name: feature_02_png_tp_jpg
 
 jobs:
   ContinuousIntegration:

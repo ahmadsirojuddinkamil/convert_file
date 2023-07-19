@@ -55,7 +55,7 @@
         setTimeout(function() {
             localStorage.removeItem('ownership');
 
-            axios.delete(`/jpg_to_png/${checkOwnershipAndGetValue}`)
+            axios.delete(`/delete_all_file/${checkOwnershipAndGetValueAll}`)
                 .then(response => {
                     console.log(response.data);
                 })
@@ -64,6 +64,6 @@
                 });
 
             window.location.href = '/';
-        }, 15 * 60 * 1000);
+        }, 10 * 60 * 1000);
     }
 </script>

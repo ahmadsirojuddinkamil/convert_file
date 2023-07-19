@@ -26,6 +26,7 @@ class JpgFactory extends Factory
         return [
             // 'png_id' => '1',
             'uuid' => $faker->uuid,
+            'unique_id' => $faker->uuid,
             'file' => $filePath . $fileName,
             'name' => $faker->word,
         ];
