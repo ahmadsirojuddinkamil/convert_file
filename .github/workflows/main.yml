@@ -1,9 +1,9 @@
 on:
   push:
     branches:
-      - feature_02_png_to_jpg
+      - feature_02_png_tp_jpg
 
-name: feature_02_png_to_jpg
+name: feature_02_png_tp_jpg
 
 jobs:
   ContinuousIntegration:
