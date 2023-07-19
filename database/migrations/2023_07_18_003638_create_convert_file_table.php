@@ -14,6 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->unsignedBigInteger('png_id')->nullable();
             $table->uuid('uuid');
+            $table->uuid('unique_id');
             $table->string('file');
             $table->string('name');
             $table->timestamps();
@@ -23,6 +24,7 @@ return new class () extends Migration {
             $table->id();
             $table->unsignedBigInteger('jpg_id')->nullable();
             $table->uuid('uuid');
+            $table->uuid('unique_id');
             $table->string('file');
             $table->string('name');
             $table->timestamps();

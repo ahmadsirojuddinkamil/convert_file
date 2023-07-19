@@ -7,32 +7,31 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Ramsey\Uuid\Uuid;
 
-class JpgToPngService
+class PngToJpgService
 {
     public function convertAndSave($saveFileFromCallRequest, $saveUuidFromCallRequest = null)
     {
-        $jpgFilePath = $saveFileFromCallRequest->store('public/document_jpg_to_png');
-        $jpgFilePath = str_replace('public/', '', $jpgFilePath);
+        $pngFilePath = $saveFileFromCallRequest->store('public/document_png_to_jpg');
+        $pngFilePath = str_replace('public/', '', $pngFilePath);
+        $jpgFilePath = str_replace('.png', '.jpg', $pngFilePath);
 
-        $pngFilePath = str_replace('.jpg', '.png', $jpgFilePath);
-
-        $image = Image::make(storage_path('app/public/' . $jpgFilePath));
-        $image->encode('png', 100)->save(storage_path('app/public/' . $pngFilePath));
+        $image = Image::make(storage_path('app/public/' . $pngFilePath));
+        $image->encode('jpg', 100)->save(storage_path('app/public/' . $jpgFilePath));
 
         $dataUuidLocalStorage = $saveUuidFromCallRequest ?? Uuid::uuid4()->toString();
-        $dataFile = Jpg::create([
+        $dataFile = Png::create([
             'uuid' => $dataUuidLocalStorage,
             'unique_id' => Uuid::uuid4()->toString(),
             'name' => $saveFileFromCallRequest->getClientOriginalName(),
-            'file' => $jpgFilePath,
+            'file' => $pngFilePath,
         ]);
 
-        Png::create([
+        Jpg::create([
             'jpg_id' => $dataFile->id,
             'uuid' => $dataFile->uuid,
             'unique_id' => Uuid::uuid4()->toString(),
-            'name' => pathinfo($saveFileFromCallRequest->getClientOriginalName(), PATHINFO_FILENAME) . '.png',
-            'file' => 'document_jpg_to_png/' . basename($pngFilePath),
+            'name' => pathinfo($saveFileFromCallRequest->getClientOriginalName(), PATHINFO_FILENAME) . '.jpg',
+            'file' => 'document_png_to_jpg/' . basename($jpgFilePath),
         ]);
 
         Storage::delete('public/' . $dataFile->file);

@@ -15,17 +15,17 @@
         @endif
 
         <div>
-            <h1>JPG to PNG Converter</h1>
-            <p>Convert your JPG to PNG documents with incredible accuracy.</p>
+            <h1>PNG to JPG Converter</h1>
+            <p>Convert your PNG to JPG documents with incredible accuracy.</p>
             <p class=" text-danger">Files will be deleted after 10 minutes!</p>
         </div>
 
         <div>
-            <form action="/jpg_to_png" method="POST" enctype="multipart/form-data">
+            <form action="/png_to_jpg" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <label for="jpg" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Jpg File</label>
-                <input id="jpg" type="file" name="file" style="display: none" accept="image/jpeg"
+                <input id="jpg" type="file" name="file" style="display: none" accept="image/png"
                     onchange="previewImage(event)" onclick="resetInputValue()" required>
 
                 <input type="text" id="uuid" name="uuid" style="display:none" hidden>
@@ -38,41 +38,38 @@
             <img id="preview" alt="Preview Image" style="display:none; max-width: 150px;" class=" mt-3">
         </div>
 
-        {{-- <script>
-            var currentImage = null;
-
-            function previewImage(event) {
-                var input = event.target;
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        var previewImage = document.getElementById('preview');
-                        previewImage.src = e.target.result;
-                        previewImage.style.display = 'block';
-                        currentImage = e.target.result;
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-
-            function resetInputValue() {
-                var input = document.getElementById('jpg');
-                if (input.value && currentImage) {
-                    input.value = null;
-                    currentImage = null;
-                    var previewImage = document.getElementById('preview');
-                    previewImage.src = '#';
-                    previewImage.style.display = 'none';
-                }
-            }
-        </script> --}}
-
-
         <div class="border border-dark mt-4 p-5 rounded">
             <ul class="horizontal-list">
 
+                @foreach ($findAndGetDataFile as $resultJpg)
+                    <li>
+                        <ul>
+                            <li class="mb-2 text-dark" style="list-style-type: none;">
+                                {{ Str::limit($resultJpg->name, 15) }}
+                            </li>
+
+                            <li style="list-style-type: none;">
+                                <img src="{{ asset('storage/' . $resultJpg->file) }}" alt="" height="150px"
+                                    width="150px">
+                            </li>
+
+                            <a href="/png_to_jpg/{{ $resultJpg->unique_id }}/download"
+                                class="btn text-white bg-primary mt-2">Download</a>
+                        </ul>
+
+                        <br>
+                    </li>
+                @endforeach
             </ul>
         </div>
 
     </div>
 </div>
+
+<script>
+    const checkOwnershipAndGetValue = localStorage.getItem('ownership');
+
+    if (checkOwnershipAndGetValue) {
+        document.getElementById('uuid').value = localStorage.getItem('ownership');
+    }
+</script>

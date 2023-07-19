@@ -17,7 +17,7 @@
         <div>
             <h1>JPG to PNG Converter</h1>
             <p>Convert your JPG to PNG documents with incredible accuracy.</p>
-            <p class=" text-danger">Files will be deleted after 15 minutes!</p>
+            <p class=" text-danger">Files will be deleted after 10 minutes!</p>
         </div>
 
         <div>
@@ -53,7 +53,7 @@
                                     width="150px">
                             </li>
 
-                            <a href="/jpg_to_png/{{ $resultPng->uuid }}/download"
+                            <a href="/jpg_to_png/{{ $resultPng->unique_id }}/download"
                                 class="btn text-white bg-primary mt-2">Download</a>
                         </ul>
 
