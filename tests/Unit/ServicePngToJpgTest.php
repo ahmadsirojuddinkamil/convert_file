@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Models\{Jpg, Png};
-use App\Services\JpgToPngService;
+use App\Services\PngToJpgService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
-class ServiceJpgToPngTest extends TestCase
+class ServicePngToJpgTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -17,27 +16,27 @@ class ServiceJpgToPngTest extends TestCase
     {
         Storage::fake('public');
 
-        $jpgFile = UploadedFile::fake()->image('file.jpg');
+        $pngFile = UploadedFile::fake()->image('file.png');
 
-        $jpgToPngService = new JpgToPngService();
+        $pngToJpgService = new PngToJpgService();
 
-        $result = $jpgToPngService->convertAndSave($jpgFile);
+        $result = $pngToJpgService->convertAndSave($pngFile);
 
         Storage::disk('public')->assertMissing($result->file);
 
         // // Memastikan bahwa file png ada di storage
         // Storage::disk('public')->assertExists($result->png->file);
 
-        $this->assertDatabaseHas('jpgs', [
+        $this->assertDatabaseHas('pngs', [
             'uuid' => $result->uuid,
-            'name' => $jpgFile->getClientOriginalName(),
+            'name' => $pngFile->getClientOriginalName(),
             'file' => $result->file,
         ]);
 
-        $this->assertDatabaseHas('pngs', [
-            // 'jpg_id' => $result->id,
+        $this->assertDatabaseHas('jpgs', [
+            // 'png_id' => $result->id,
             'uuid' => $result->uuid,
-            'name' => pathinfo($jpgFile->getClientOriginalName(), PATHINFO_FILENAME) . '.png',
+            'name' => pathinfo($pngFile->getClientOriginalName(), PATHINFO_FILENAME) . '.jpg',
             // 'file' => $result->png ? 'document_jpg_to_png/' . basename($result->png->file) : null,
         ]);
 

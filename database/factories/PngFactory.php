@@ -26,6 +26,7 @@ class PngFactory extends Factory
         return [
             // 'jpg_id' => '1',
             'uuid' => $faker->uuid,
+            'unique_id' => $faker->uuid,
             'file' => $filePath . $fileName,
             'name' => $faker->word,
         ];
