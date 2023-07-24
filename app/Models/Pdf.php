@@ -5,37 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jpg extends Model
+class Pdf extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'png_id',
-        'pdf_id',
+        'jpg_id',
         'uuid',
         'unique_id',
         'file',
         'name',
     ];
 
-    // Relationships
-    public function pngs()
+    // Relasi
+    public function jpgs()
     {
-        return $this->belongsToMany(Png::class, 'png_id');
-    }
-
-    public function pdfs()
-    {
-        return $this->belongsToMany(Pdf::class, 'pdf_id');
+        return $this->belongsToMany(Jpg::class, 'jpg_id');
     }
 
     // Query
-    public function scopeFindJpgByUuid($query, $saveUuid)
+    public function scopeFindPdfByUuid($query, $saveUuid)
     {
         return $query->where('uuid', $saveUuid);
     }
 
-    public function scopeFindJpgByUniqueId($query, $saveUuid)
+    public function scopeFindPdfByUniqueId($query, $saveUuid)
     {
         return $query->where('unique_id', $saveUuid);
     }

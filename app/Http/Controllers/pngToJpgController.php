@@ -36,6 +36,18 @@ class pngToJpgController extends Controller
         ]);
     }
 
+    public function reply(CreatePngToJpgRequest $request, PngToJpgService $pngToJpgService, $save_uuid_reply_from_route)
+    {
+        $validateData = $request->validated();
+
+        $dataFile = $pngToJpgService->convertAndSave($validateData['file'], $save_uuid_reply_from_route);
+
+        return redirect('/png_to_jpg/'. $dataFile['uuid'] . '/file')->with([
+            'uuid' => $dataFile['uuid'],
+            'success' => 'File berhasil di convert!'
+        ]);
+    }
+
     public function download($saveUuidDownloadFromRoute)
     {
         $jpg = Jpg::FindJpgByUniqueId($saveUuidDownloadFromRoute)->firstOrFail();

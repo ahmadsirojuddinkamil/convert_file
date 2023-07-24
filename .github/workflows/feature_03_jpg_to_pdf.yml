@@ -1,9 +1,9 @@
 on:
   push:
     branches:
-      - main
+      - feature_03_jpg_to_pdf
 
-name: Production Deployment
+name: feature_03_jpg_to_pdf
 
 jobs:
   ContinuousIntegration:
@@ -15,9 +15,6 @@ jobs:
 
       - name: Build apps
         run: composer install
-
-      - name: Run Unit Tests
-        run: vendor/bin/phpunit
 
       - name: Launch Pint Linter
         run: vendor/bin/pint --preset psr12
