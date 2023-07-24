@@ -28,8 +28,6 @@
                 <input id="jpg" type="file" name="file" style="display: none" accept="image/png"
                     onchange="previewImage(event)" onclick="resetInputValue()" required>
 
-                <input type="text" id="uuid" name="uuid" style="display:none" hidden>
-
                 <button type="submit" class="btn text-white bg-primary">Convert Now!</button>
             </form>
         </div>

@@ -15,13 +15,13 @@
         @endif
 
         <div>
-            <h1>JPG to PNG Converter</h1>
-            <p>Convert your JPG to PNG documents with incredible accuracy.</p>
+            <h1>JPG to PDF Converter</h1>
+            <p>Convert your JPG to PDF documents with incredible accuracy.</p>
             <p class=" text-danger">Files will be deleted after 10 minutes!</p>
         </div>
 
         <div>
-            <form action="/jpg_to_png" method="POST" enctype="multipart/form-data">
+            <form action="/jpg_to_pdf" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <label for="jpg" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Jpg File</label>
@@ -35,36 +35,6 @@
         <div class=" d-flex justify-content-center">
             <img id="preview" alt="Preview Image" style="display:none; max-width: 150px;" class=" mt-3">
         </div>
-
-        {{-- <script>
-            var currentImage = null;
-
-            function previewImage(event) {
-                var input = event.target;
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        var previewImage = document.getElementById('preview');
-                        previewImage.src = e.target.result;
-                        previewImage.style.display = 'block';
-                        currentImage = e.target.result;
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-
-            function resetInputValue() {
-                var input = document.getElementById('jpg');
-                if (input.value && currentImage) {
-                    input.value = null;
-                    currentImage = null;
-                    var previewImage = document.getElementById('preview');
-                    previewImage.src = '#';
-                    previewImage.style.display = 'none';
-                }
-            }
-        </script> --}}
-
 
         <div class="border border-dark mt-4 p-5 rounded">
             <ul class="horizontal-list">

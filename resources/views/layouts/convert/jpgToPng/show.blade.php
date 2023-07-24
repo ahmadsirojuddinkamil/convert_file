@@ -21,14 +21,12 @@
         </div>
 
         <div>
-            <form action="/jpg_to_png" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data" id="reply-jpg-to-png">
                 @csrf
 
                 <label for="jpg" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Jpg File</label>
                 <input id="jpg" type="file" name="file" style="display: none" accept="image/jpeg"
                     onchange="previewImage(event)" onclick="resetInputValue()" required>
-
-                <input type="text" id="uuid" name="uuid" style="display:none" hidden>
 
                 <button type="submit" class="btn text-white bg-primary">Convert Now!</button>
             </form>
@@ -70,6 +68,6 @@
     const checkOwnershipAndGetValue = localStorage.getItem('ownership');
 
     if (checkOwnershipAndGetValue) {
-        document.getElementById('uuid').value = localStorage.getItem('ownership');
+        document.getElementById('reply-jpg-to-png').action = `/jpg_to_png/${checkOwnershipAndGetValue}/reply`;
     }
 </script>

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Jpg;
+use App\Models\Pdf;
 use App\Models\Png;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,6 +13,7 @@ class DeleteFileService
     {
         $findAndGetFileJpg = Jpg::FindJpgByUuid($saveUuidFromCallRequest)->get();
         $findAndGetFilePng = Png::FindPngByUuid($saveUuidFromCallRequest)->get();
+        $findAndGetFilePdf = Pdf::FindPdfByUuid($saveUuidFromCallRequest)->get();
 
         if ($findAndGetFileJpg) {
             foreach ($findAndGetFileJpg as $resultJpg) {
@@ -33,6 +35,17 @@ class DeleteFileService
             }
 
             Png::FindPngByUuid($saveUuidFromCallRequest)->delete();
+        }
+
+        if ($findAndGetFilePdf) {
+            foreach ($findAndGetFilePdf as $resultPdf) {
+                if ($resultPdf->file) {
+                    Storage::delete('public/' . $resultPdf->file);
+                }
+                $resultPdf->delete();
+            }
+
+            Pdf::FindPdfByUuid($saveUuidFromCallRequest)->delete();
         }
     }
 }
