@@ -47,6 +47,38 @@
     }
 </script>
 
+{{-- to preview the input pdf --}}
+<script>
+    var currentImagePdf = null;
+
+    function previewImagePdf(event) {
+        var inputPdf = event.target;
+        if (inputPdf.files && inputPdf.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var previewImagePdf = document.getElementById('previewPdf');
+                previewImagePdf.src =
+                    'https://play-lh.googleusercontent.com/BkRfMfIRPR9hUnmIYGDgHHKjow-g18-ouP6B2ko__VnyUHSi1spcc78UtZ4sVUtBH4g';
+                previewImagePdf.style.display = 'block';
+                currentImagePdf =
+                    'https://play-lh.googleusercontent.com/BkRfMfIRPR9hUnmIYGDgHHKjow-g18-ouP6B2ko__VnyUHSi1spcc78UtZ4sVUtBH4g';
+            }
+            reader.readAsDataURL(inputPdf.files[0]);
+        }
+    }
+
+    function resetInputValuePdf() {
+        var input = document.getElementById('pdfFile');
+        if (input.value && currentImagePdf) {
+            input.value = null;
+            currentImagePdf = null;
+            var previewImage = document.getElementById('previewPdf');
+            previewImage.src = '#';
+            previewImage.style.display = 'none';
+        }
+    }
+</script>
+
 {{-- refresh every 15 minutes and run the function --}}
 <script>
     const checkOwnershipAndGetValueAll = localStorage.getItem('ownership');
