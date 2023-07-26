@@ -15,25 +15,25 @@
         @endif
 
         <div>
-            <h1>PNG to JPG Converter</h1>
-            <p>Convert your PNG to JPG documents with incredible accuracy.</p>
+            <h1>PDF to JPG Converter</h1>
+            <p>Convert your PDF to JPG documents with incredible accuracy.</p>
             <p class=" text-danger">Files will be deleted after 10 minutes!</p>
         </div>
 
         <div>
-            <form action="" method="POST" enctype="multipart/form-data" id="reply-png-to-jpg">
+            <form action="" method="POST" enctype="multipart/form-data" id="reply-jpg-to-png">
                 @csrf
 
-                <label for="jpg" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Jpg File</label>
-                <input id="jpg" type="file" name="file" style="display: none" accept="image/png"
-                    onchange="previewImage(event)" onclick="resetInputValue()" required>
+                <label for="pdfFile" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Select Pdf File</label>
+                <input id="pdfFile" type="file" name="file" style="display: none" accept="application/pdf"
+                    onchange="previewImagePdf(event)" onclick="resetInputValuePdf()" required>
 
                 <button type="submit" class="btn text-white bg-primary">Convert Now!</button>
             </form>
         </div>
 
         <div class=" d-flex justify-content-center">
-            <img id="preview" alt="Preview Image" style="display:none; max-width: 150px;" class=" mt-3">
+            <img id="previewPdf" alt="Preview Image" style="display:none; max-width: 150px;" class=" mt-3">
         </div>
 
         <div class="border border-dark mt-4 p-5 rounded">
@@ -57,7 +57,7 @@
                                     width="150px">
                             </li>
 
-                            <a href="/png_to_jpg/{{ $resultJpg->unique_id }}/download"
+                            <a href="/pdf_to_jpg/{{ $resultJpg->unique_id }}/download"
                                 class="btn text-white bg-primary mt-2">Download</a>
                         </ul>
 
@@ -74,6 +74,6 @@
     const checkOwnershipAndGetValue = localStorage.getItem('ownership');
 
     if (checkOwnershipAndGetValue) {
-        document.getElementById('reply-png-to-jpg').action = `/png_to_jpg/${checkOwnershipAndGetValue}/reply`;
+        document.getElementById('reply-jpg-to-png').action = `/pdf_to_jpg/${checkOwnershipAndGetValue}/reply`;
     }
 </script>

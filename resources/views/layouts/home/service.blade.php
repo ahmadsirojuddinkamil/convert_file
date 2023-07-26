@@ -58,7 +58,8 @@
                         <div class="services-content-icon">
                             <i class="bi bi-file-image fa-7x mb-4 text-primary"></i>
                             <h4 class="mb-4">Pdf To Jpg</h4>
-                            <a href="" class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
+                            <a href="/pdf_to_jpg"
+                                class="btn btn-secondary text-white px-5 py-3 rounded-pill">Convert</a>
                         </div>
                     </div>
                 </div>

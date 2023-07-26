@@ -43,7 +43,13 @@
                     <li>
                         <ul>
                             <li class="mb-2 text-dark" style="list-style-type: none;">
-                                {{ Str::limit($resultPdf->name, 15) }}
+                                @php
+                                    $fileName = pathinfo($resultPdf->name, PATHINFO_FILENAME);
+                                    $fileExtension = pathinfo($resultPdf->name, PATHINFO_EXTENSION);
+                                    $limitedFileName = Str::limit($fileName, 15);
+                                    $displayFileName = $limitedFileName . '.' . $fileExtension;
+                                @endphp
+                                {{ $displayFileName }}
                             </li>
 
                             <li style="list-style-type: none;">

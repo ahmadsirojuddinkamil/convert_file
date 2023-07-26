@@ -19,7 +19,8 @@ class PdfFactory extends Factory
     {
         $faker = app(Faker::class);
 
-        $filePath = 'document_jpg_to_pdf/';
+        $filePath = 'document_pdf_to_jpg/';
+        // $filePath = 'document_jpg_to_pdf/';
         $file = $faker->image('public/storage/' . $filePath, 640, 480, null, false);
         $fileName = pathinfo($file, PATHINFO_BASENAME);
 

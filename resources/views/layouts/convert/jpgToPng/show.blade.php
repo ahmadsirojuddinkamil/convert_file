@@ -43,7 +43,13 @@
                     <li>
                         <ul>
                             <li class="mb-2 text-dark" style="list-style-type: none;">
-                                {{ Str::limit($resultPng->name, 15) }}
+                                @php
+                                    $fileName = pathinfo($resultPng->name, PATHINFO_FILENAME);
+                                    $fileExtension = pathinfo($resultPng->name, PATHINFO_EXTENSION);
+                                    $limitedFileName = Str::limit($fileName, 15);
+                                    $displayFileName = $limitedFileName . '.' . $fileExtension;
+                                @endphp
+                                {{ $displayFileName }}
                             </li>
 
                             <li style="list-style-type: none;">
