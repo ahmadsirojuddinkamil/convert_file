@@ -11,6 +11,7 @@ class Png extends Model
 
     protected $fillable = [
         'jpg_id',
+        'pdf_id',
         'uuid',
         'unique_id',
         'file',
