@@ -1,9 +1,9 @@
 on:
   push:
     branches:
-      - feature_04_pdf_to_jpg
+      - feature_05_png_to_pdf
 
-name: feature_04_pdf_to_jpg
+name: feature_05_png_to_pdf
 
 jobs:
   ContinuousIntegration:

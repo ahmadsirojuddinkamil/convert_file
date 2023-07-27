@@ -11,6 +11,7 @@ class Pdf extends Model
 
     protected $fillable = [
         'jpg_id',
+        'png_id',
         'uuid',
         'unique_id',
         'file',
