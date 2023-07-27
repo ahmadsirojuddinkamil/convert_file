@@ -34,6 +34,7 @@ return new class () extends Migration {
         Schema::create('pdfs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('jpg_id')->nullable();
+            $table->unsignedBigInteger('png_id')->nullable();
             $table->uuid('uuid');
             $table->uuid('unique_id');
             $table->string('file');
@@ -52,6 +53,7 @@ return new class () extends Migration {
 
         Schema::table('pdfs', function (Blueprint $table) {
             $table->foreign('jpg_id')->references('id')->on('jpgs')->onDelete('cascade');
+            $table->foreign('png_id')->references('id')->on('pngs')->onDelete('cascade');
         });
     }
 
