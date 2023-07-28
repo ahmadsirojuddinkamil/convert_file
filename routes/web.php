@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{homeController, jpgToPdfController, JpgToPngController, pdfToJpgController, pngToJpgController, pngToPdfController};
+use App\Http\Controllers\{homeController, jpgToPdfController, JpgToPngController, pdfToJpgController, pdfToPngController, pngToJpgController, pngToPdfController};
 use Illuminate\Support\Facades\Route;
 
 Route::controller(homeController::class)->group(function () {
@@ -50,4 +50,12 @@ Route::controller(pngToPdfController::class)->group(function () {
     Route::post('/png_to_pdf', 'create');
     Route::post('/png_to_pdf/{save_uuid_reply_from_click}/reply', 'reply');
     Route::get('/png_to_pdf/{save_uuid_download_from_click}/download', 'download');
+});
+
+Route::controller(pdfToPngController::class)->group(function () {
+    Route::get('/pdf_to_png', 'index');
+    Route::get('/pdf_to_png/{save_uuid_show_from_click}/file', 'show');
+    Route::post('/pdf_to_png', 'create');
+    Route::post('/pdf_to_png/{save_uuid_reply_from_click}/reply', 'reply');
+    Route::get('/pdf_to_png/{save_uuid_download_from_click}/download', 'download');
 });
