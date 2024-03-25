@@ -20,4 +20,4 @@ jobs:
       #   run: vendor/bin/phpunit
 
       - name: Launch Pint Linter
-        run: vendor/bin/pint --preset psr12
+        run: ./vendor/bin/pint
