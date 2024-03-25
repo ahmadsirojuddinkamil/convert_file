@@ -20,4 +20,4 @@ jobs:
         run: ./vendor/bin/pint
 
       - name: Launch Unit Tests
-        run: ./vendor/bin/phpunit --filter=JpgToPdfPageTest
+        run: ./vendor/bin/phpunit
