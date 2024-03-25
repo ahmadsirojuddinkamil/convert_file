@@ -1,0 +1,11 @@
+{
+    "name": "Jpg",
+    "alias": "jpg",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Jpg\\App\\Providers\\JpgServiceProvider"
+    ],
+    "files": []
+}

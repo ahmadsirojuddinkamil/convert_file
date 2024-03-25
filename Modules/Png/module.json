@@ -1,0 +1,11 @@
+{
+    "name": "Png",
+    "alias": "png",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Png\\App\\Providers\\PngServiceProvider"
+    ],
+    "files": []
+}

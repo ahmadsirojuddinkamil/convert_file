@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+      - feature_07_comment
+
+name: feature_07_comment
+
+jobs:
+  ContinuousIntegration:
+    name: Run Dependencies & Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
+
+      - name: Launch Linter
+        run: ./vendor/bin/pint
+
+      - name: Launch Unit Tests
+        run: ./vendor/bin/phpunit --filter=JpgToPdfPageTest
