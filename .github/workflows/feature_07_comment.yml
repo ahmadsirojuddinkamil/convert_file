@@ -23,4 +23,4 @@ jobs:
       #   run: ./vendor/bin/phpunit $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfPageTest.php
 
       - name: Run JpgToPdfPageTest.php
-        run: ./vendor/bin/phpunit $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfCreateTest.php
+        run: php artisan test $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfPageTest.php
