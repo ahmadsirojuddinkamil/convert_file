@@ -20,4 +20,5 @@ jobs:
         run: ./vendor/bin/pint
 
       - name: Launch Direktory Tests
-        run: ls $GITHUB_WORKSPACE/tests
+        run: ls $GITHUB_WORKSPACE/Modules
+        # run: ls $GITHUB_WORKSPACE/tests
