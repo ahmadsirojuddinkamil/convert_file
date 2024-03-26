@@ -20,5 +20,5 @@ jobs:
         run: ./vendor/bin/pint
 
       - name: Launch Direktory Tests
-        run: ls $GITHUB_WORKSPACE/Modules
+        run: ls $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf
         # run: ls $GITHUB_WORKSPACE/tests
