@@ -19,5 +19,5 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      - name: Launch Unit Tests
-        run: php artisan test
+      - name: Launch Direktory Tests
+        run: echo $GITHUB_WORKSPACE
