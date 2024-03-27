@@ -31,7 +31,7 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      - name: Prepare Laravel Application
+      - name: env generate
         run: |
           cp .env.example .env
           php artisan key:generate
