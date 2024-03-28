@@ -9,8 +9,8 @@ jobs:
   ContinuousIntegration:
     name: Run Dependencies & Linter
     runs-on: ubuntu-latest
-    container:
-      image: ahmadsirojuddinkamil/mysql-convert-1
+    # container:
+    #   image: ahmadsirojuddinkamil/mysql-convert-1
 
     steps:
       - name: Get latest code
