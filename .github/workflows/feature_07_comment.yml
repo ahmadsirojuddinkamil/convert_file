@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Launch MySQL Container
-        run: docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=your_password -d ahmadsirojuddinkamil/mysql-convert-1
+        run: docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=12345678 -d ahmadsirojuddinkamil/mysql-convert-1
 
       - name: Wait for MySQL to start
         run: sleep 30s # Adjust this according to the startup time of MySQL
