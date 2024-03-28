@@ -6,11 +6,9 @@ on:
       - feature_07_comment
 
 jobs:
-  ContinuousIntegration:
-    name: Run Dependencies & Linter
+  InstallDependencies:
+    name: Install Dependencies
     runs-on: ubuntu-latest
-    # container:
-    #   image: ahmadsirojuddinkamil/mysql-convert-1
 
     steps:
       - name: Get latest code
@@ -24,5 +22,19 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
 
+  RunMySQLContainer:
+    name: Run MySQL Container
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Launch MySQL Container
+        run: docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=your_password -d ahmadsirojuddinkamil/mysql-convert-1
+
+      - name: Wait for MySQL to start
+        run: sleep 30s # Adjust this according to the startup time of MySQL
+
       - name: Launch Linter
-        run: ./vendor/bin/pint
+        run: docker exec mysql-container ./vendor/bin/pint
