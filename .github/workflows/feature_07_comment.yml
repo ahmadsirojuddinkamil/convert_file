@@ -1,9 +1,9 @@
+name: feature_07_comment
+
 on:
   push:
     branches:
       - feature_07_comment
-
-name: feature_07_comment
 
 jobs:
   ContinuousIntegration:
@@ -16,14 +16,13 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
+      - name: Install Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          mv composer.phar /usr/local/bin/composer
+
       - name: Install Dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Launch Linter
         run: ./vendor/bin/pint
-
-      # - name: Run JpgToPdfPageTest.php
-      #   run: ./vendor/bin/phpunit $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfPageTest.php
-
-      # - name: Run JpgToPdfCreateTest.php
-      #   run: php artisan test $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfCreateTest.php
