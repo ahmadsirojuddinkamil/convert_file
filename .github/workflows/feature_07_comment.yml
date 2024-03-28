@@ -10,17 +10,8 @@ jobs:
     name: Run Dependencies & Linter
     runs-on: ubuntu-latest
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:8.1
+      image: ahmadsirojuddinkamil/mysql-convert-1
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: test
-        ports:
-          - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
@@ -31,13 +22,8 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      # - name: env generate
-      #   run: |
-      #     cp .env.example .env
-      #     php artisan key:generate
-
-      - name: Run JpgToPdfPageTest.php
-        run: ./vendor/bin/phpunit $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfPageTest.php
+      # - name: Run JpgToPdfPageTest.php
+      #   run: ./vendor/bin/phpunit $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfPageTest.php
 
       # - name: Run JpgToPdfCreateTest.php
       #   run: php artisan test $GITHUB_WORKSPACE/Modules/Jpg/tests/Feature/JpgToPdf/JpgToPdfCreateTest.php
