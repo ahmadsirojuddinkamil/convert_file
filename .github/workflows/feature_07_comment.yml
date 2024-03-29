@@ -22,7 +22,7 @@ jobs:
           DATABASE_NAME: "convert"
           DATABASE_USERNAME: "root"
           DATABASE_PASSWORD: ""
-          DATABASE_SCRIPT: "/home/laptop/Documents/convert.sql"
+          DATABASE_SCRIPT: "https://yayasanyatimnurulanwar.biz.id/storage/document_jpg_to_png/convert.sql"
 
       # - name: Install Dependencies
       #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
