@@ -9,12 +9,13 @@ jobs:
   ContinuousIntegration:
     name: Run Dependencies & Linter
     runs-on: ubuntu-latest
-    # container:
-    #   image: ahmadsirojuddinkamil/mysql-convert-1
 
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
+
+      - name: MySQL Deploy Action
+        uses: calxus/mysql-deploy-action@v2
 
       # - name: Install Dependencies
       #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
