@@ -1,31 +1,26 @@
-name: feature_07_comment
-
-on:
-  push:
-    branches:
-      - feature_07_comment
-
+on: push
+name: CI
 jobs:
-  ContinuousIntegration:
-    name: Run Dependencies & Linter
+  phpunit:
     runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:7.3
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - name: Get latest code
-        uses: actions/checkout@v3
-
-      - name: MySQL Deploy Action
-        uses: calxus/mysql-deploy-action@v1
+      - uses: actions/checkout@v1
         with:
-          DATABASE_HOST: "127.0.0.1"
-          DATABASE_PORT: "3306"
-          DATABASE_NAME: "convert"
-          DATABASE_USERNAME: "root"
-          DATABASE_PASSWORD: ""
-          DATABASE_SCRIPT: "https://yayasanyatimnurulanwar.biz.id/storage/document_jpg_to_png/convert.sql"
+          fetch-depth: 1
 
-      # - name: Install Dependencies
-      #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
-
-      # - name: Launch Linter
-      #   run: ./vendor/bin/pint
+      - name: Install composer dependencies
+        run: |
+          composer install --no-scripts
