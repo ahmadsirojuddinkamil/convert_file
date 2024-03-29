@@ -17,12 +17,12 @@ jobs:
       - name: MySQL Deploy Action
         uses: calxus/mysql-deploy-action@v1
         with:
-          DATABASE_HOST: "db.host.io"
+          DATABASE_HOST: "127.0.0.1"
           DATABASE_PORT: "3306"
-          DATABASE_NAME: "mydb"
+          DATABASE_NAME: "convert"
           DATABASE_USERNAME: "root"
-          DATABASE_PASSWORD: "password"
-          DATABASE_SCRIPT: "script.sql"
+          DATABASE_PASSWORD: ""
+          DATABASE_SCRIPT: "/home/laptop/Documents/convert.sql"
 
       # - name: Install Dependencies
       #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
