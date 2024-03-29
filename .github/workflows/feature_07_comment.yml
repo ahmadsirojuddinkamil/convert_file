@@ -15,7 +15,14 @@ jobs:
         uses: actions/checkout@v3
 
       - name: MySQL Deploy Action
-        uses: calxus/mysql-deploy-action@v2
+        uses: calxus/mysql-deploy-action@v1
+        with:
+          DATABASE_HOST: "db.host.io"
+          DATABASE_PORT: "3306"
+          DATABASE_NAME: "mydb"
+          DATABASE_USERNAME: "root"
+          DATABASE_PASSWORD: "password"
+          DATABASE_SCRIPT: "script.sql"
 
       # - name: Install Dependencies
       #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
