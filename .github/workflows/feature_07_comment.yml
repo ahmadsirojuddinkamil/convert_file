@@ -23,7 +23,7 @@ jobs:
 
       - name: Install php package
         run: |
-          sudo apt install php8.2 php8.2-cli php8.2-{bz2,curl,mbstring,intl}
+          apt install php8.2 php8.2-cli php8.2-{bz2,curl,mbstring,intl}
 
       - name: Install composer dependencies
         run: |
