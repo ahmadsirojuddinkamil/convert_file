@@ -17,7 +17,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: convert
         ports:
-          - 3306:3306
+          - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -31,7 +31,7 @@ jobs:
         run: ./vendor/bin/pint
 
       - name: Start MySQL Server
-        run: docker run -d -p 3306:3306 --name mysql-server -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=mydatabase mysql:latest
+        run: docker run -d -p 3307:3306 --name mysql-server -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=mydatabase mysql:latest
 
       - name: Wait for MySQL to Start
         run: docker exec mysql-server mysqladmin --silent --wait=30 ping --host=localhost
