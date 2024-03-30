@@ -17,11 +17,11 @@ jobs:
       - name: MySql in GitHub Actions
         uses: nnhy/mysql-action@v1.0
 
-      # - name: Install Dependencies
-      #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
 
-      # - name: Launch Linter
-      #   run: ./vendor/bin/pint
+      - name: Launch Linter
+        run: ./vendor/bin/pint
 
       - name: Migrate Database
         run: php artisan migrate --force
