@@ -10,18 +10,31 @@ jobs:
     name: Run Dependencies & Linter
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: convert
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
-
-      - name: MySql in GitHub Actions
-        uses: nnhy/mysql-action@v1.0
 
       - name: Install Dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Launch Linter
         run: ./vendor/bin/pint
+
+      - name: Start MySQL Server
+        run: docker run -d -p 3306:3306 --name mysql-server -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=mydatabase mysql:latest
+
+      - name: Wait for MySQL to Start
+        run: docker exec mysql-server mysqladmin --silent --wait=30 ping --host=localhost
 
       - name: Migrate Database
         run: php artisan migrate --force
