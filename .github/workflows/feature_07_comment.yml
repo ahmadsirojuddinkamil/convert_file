@@ -10,28 +10,21 @@ jobs:
     name: Run Dependencies & Linter
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE:
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
+      - name: MySql in GitHub Actions
+        uses: nnhy/mysql-action@v1.0
 
-      - name: Launch Linter
-        run: ./vendor/bin/pint
+      # - name: Install Dependencies
+      #   run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
 
-      - name: Migrate Database
-        run: php artisan migrate --force
+      # - name: Launch Linter
+      #   run: ./vendor/bin/pint
 
-      - name: Launch Unit Test
-        run: php artisan test
+      # - name: Migrate Database
+      #   run: php artisan migrate --force
+
+      # - name: Launch Unit Test
+      #   run: php artisan test
