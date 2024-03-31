@@ -35,8 +35,8 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      # - name: Migrate Database
-      #   run: php artisan migrate --force
+      - name: Migrate Database
+        run: php artisan migrate --force
 
       # - name: Launch Unit Test
       #   run: php artisan test
