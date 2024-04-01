@@ -30,5 +30,6 @@ jobs:
         run: php artisan migrate --force
 
       - name: Launch Unit Test
-        run: php artisan test --filter=JpgToPdfPageTest
+        # run: php artisan test --filter=JpgToPdfPageTest
+        run: ./vendor/bin/phpunit --testsuite Feature --filter=JpgToPdfPageTest
         # run: ./vendor/bin/phpunit --filter=JpgToPdfPageTest
