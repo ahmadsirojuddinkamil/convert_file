@@ -20,10 +20,8 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      - name: Create Database
-        run: |
-          mkdir -p database
-          touch database/database.mysql
+      - name: Start Mysql
+        run: sudo /etc/init.d/mysql start
 
       # - name: Migrate Database
       #   run: php artisan migrate --force
