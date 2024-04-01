@@ -20,7 +20,7 @@ jobs:
       - name: Copy .env.example to .env
         run: cp .env.example .env
 
-      - name: Generate Application Key
+      - name: Application Key
         run: php artisan key:generate
 
       - name: Launch Linter
