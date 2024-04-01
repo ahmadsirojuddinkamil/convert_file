@@ -23,8 +23,8 @@ jobs:
       - name: Start Mysql
         run: sudo /etc/init.d/mysql start
 
-      # - name: Migrate Database
-      #   run: php artisan migrate --force
+      - name: Migrate Database
+        run: php artisan migrate --force
 
       # - name: Launch Unit Test
       #   run: php artisan test
