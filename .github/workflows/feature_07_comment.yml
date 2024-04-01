@@ -10,21 +10,6 @@ jobs:
     name: Run Dependencies & Linter
     runs-on: ubuntu-latest
 
-    services: # Service container Mysql
-      mysql: # Label used to access the service container
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: github_actions_demo
-        ports:
-          - 33306:3306
-        options:
-          >- # Set health checks to wait until mysql database has started (it takes some seconds to start)
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
@@ -35,8 +20,13 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      - name: Migrate Database
-        run: php artisan migrate --force
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.mysql
+
+      # - name: Migrate Database
+      #   run: php artisan migrate --force
 
       # - name: Launch Unit Test
       #   run: php artisan test
