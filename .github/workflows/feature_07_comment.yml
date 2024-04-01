@@ -29,5 +29,5 @@ jobs:
       - name: Migrate Database
         run: php artisan migrate --force
 
-      # - name: Launch Unit Test
-      #   run: php artisan test
+      - name: Launch Unit Test
+        run: php artisan test
