@@ -24,6 +24,9 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
+      - name: Generate Storage
+        run: php artisan storage:link
+
       - name: Launch Linter
         run: ./vendor/bin/pint
 
