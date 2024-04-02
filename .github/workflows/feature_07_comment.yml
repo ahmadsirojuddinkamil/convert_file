@@ -24,14 +24,14 @@ jobs:
         # run: php artisan key:generate
         run: |
           php artisan key:generate --env=testing
-          sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
 
       - name: key env
         run: |
-          sed -i 's/DB_HOST=127.0.0.1/APP_ENV=103.140.90.110 /' .env.testing
-          sed -i 's/DB_DATABASE=laravel/APP_ENV=wxyfronn_convert_new /' .env.testing
-          sed -i 's/DB_USERNAME=root/APP_ENV=wxyfronn_user_remote /' .env.testing
-          sed -i 's/DB_PASSWORD=/APP_ENV=m^XPuU1OgYmy /' .env.testing
+          sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=103.140.90.110 /' .env.testing
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=wxyfronn_convert_new /' .env.testing
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=wxyfronn_user_remote /' .env.testing
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=m^XPuU1OgYmy /' .env.testing
 
       - name: Generate Storage
         run: php artisan storage:link
