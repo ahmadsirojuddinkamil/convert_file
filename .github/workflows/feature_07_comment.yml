@@ -39,9 +39,6 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      # - name: Migrate Database
-      #   run: php artisan migrate --force
-
-      # - name: Launch Unit Test
-      #   run: ./vendor/bin/phpunit --testsuite Feature
-      # run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest
+      - name: Launch Unit Test
+        # run: ./vendor/bin/phpunit --testsuite Feature
+        run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest
