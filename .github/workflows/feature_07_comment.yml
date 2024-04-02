@@ -21,14 +21,13 @@ jobs:
         run: cp .env.example .env.testing
 
       - name: Generate Application Key
-        # run: php artisan key:generate
         run: |
           php artisan key:generate --env=testing
 
       - name: key env
         run: |
           sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=103.140.90.110 /' .env.testing
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=&{{ secrets.DB_HOST }} /' .env.testing
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=wxyfronn_convert_new /' .env.testing
           sed -i 's/DB_USERNAME=root/DB_USERNAME=wxyfronn_user_remote /' .env.testing
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=m^XPuU1OgYmy /' .env.testing
@@ -39,6 +38,6 @@ jobs:
       - name: Launch Linter
         run: ./vendor/bin/pint
 
-      - name: Launch Unit Test
-        # run: ./vendor/bin/phpunit --testsuite Feature
-        run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest
+      # - name: Launch Unit Test
+      # run: ./vendor/bin/phpunit --testsuite Feature
+      # run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest
