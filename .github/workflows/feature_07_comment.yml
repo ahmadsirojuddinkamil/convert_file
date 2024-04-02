@@ -14,30 +14,26 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Install Dependencies
+      - name: Build Apps
         run: composer install
 
-      - name: copy .env.example to .env
+      - name: Generate Storage
+        run: php artisan storage:link
+
+      - name: Generate Environment
         run: cp .env.example .env.testing
 
       - name: Generate Application Key
         run: |
           php artisan key:generate --env=testing
-
-      - name: key env
-        run: |
           sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
           sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
 
-      - name: Generate Storage
-        run: php artisan storage:link
-
       - name: Launch Linter
         run: ./vendor/bin/pint
 
       - name: Launch Unit Test
         run: ./vendor/bin/phpunit --testsuite Feature
-        # run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest

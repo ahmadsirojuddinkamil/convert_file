@@ -26,14 +26,7 @@ class JpgToPdfShowTest extends TestCase
         $pdfPath = $directory . $pdfName;
         file_put_contents($pdfPath, $imageContent);
 
-        $jpg = Jpg::create([
-            'png_uuid' => null,
-            'pdf_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-        ]);
+        $jpg = Jpg::jpgOwnerFactory()->create();
 
         Pdf::create([
             'jpg_uuid' => $jpg->uuid,

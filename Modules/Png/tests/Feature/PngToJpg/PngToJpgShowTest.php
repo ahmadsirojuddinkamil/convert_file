@@ -22,14 +22,7 @@ class PngToJpgShowTest extends TestCase
         $imageContent = '';
         file_put_contents($filePath, $imageContent);
 
-        $png = Png::create([
-            'jpg_uuid' => null,
-            'pdf_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-        ]);
+        $png = Png::pngOwnerFactory()->create();
 
         Jpg::create([
             'png_uuid' => $png->uuid,

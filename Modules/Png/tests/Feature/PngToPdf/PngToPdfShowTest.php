@@ -26,14 +26,7 @@ class PngToPdfShowTest extends TestCase
         $pdfPath = $directory . $pdfName;
         file_put_contents($pdfPath, $imageContent);
 
-        $png = Png::create([
-            'jpg_uuid' => null,
-            'pdf_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-        ]);
+        $png = Png::pngOwnerFactory()->create();
 
         Pdf::create([
             'jpg_uuid' => null,

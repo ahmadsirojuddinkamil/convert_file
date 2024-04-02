@@ -22,15 +22,7 @@ class PdfToJpgReplyTest extends TestCase
         $imageContent = '';
         file_put_contents($filePath, $imageContent);
 
-        $pdf = Pdf::create([
-            'jpg_uuid' => null,
-            'png_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-            'preview' => null,
-        ]);
+        $pdf = Pdf::pdfOwnerFactory()->create();
 
         Jpg::create([
             'png_uuid' => null,
