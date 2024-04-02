@@ -31,5 +31,6 @@ jobs:
 
       - name: Launch Unit Test
         # run: php artisan test --filter=JpgToPdfPageTest
-        run: ./vendor/bin/phpunit --testsuite Feature --filter=JpgToPdfCreateTest
+        run: php artisan test --testsuite Feature
+        # run: php artisan test --testsuite Feature --filter=JpgToPdfCreateTest
         # run: ./vendor/bin/phpunit --filter=JpgToPdfPageTest
