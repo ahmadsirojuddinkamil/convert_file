@@ -26,11 +26,11 @@ jobs:
 
       - name: key env
         run: |
-          sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=wxyfronn_convert_new /' .env.testing
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=wxyfronn_user_remote /' .env.testing
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=m^XPuU1OgYmy /' .env.testing
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
 
       - name: Generate Storage
         run: php artisan storage:link
@@ -39,5 +39,5 @@ jobs:
         run: ./vendor/bin/pint
 
       - name: Launch Unit Test
-        # run: ./vendor/bin/phpunit --testsuite Feature
-        run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest
+        run: ./vendor/bin/phpunit --testsuite Feature
+        # run: ./vendor/bin/phpunit --testsuite Feature --filter=DeleteConvertFileOwnerTest
