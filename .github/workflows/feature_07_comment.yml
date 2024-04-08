@@ -38,7 +38,7 @@ jobs:
         run: |
           linter_output=$(./vendor/bin/pint)
           if [[ $linter_output == *"FIXED"* ]]; then
-            echo "Linter detected issues and fixed them. Please commit the changes."
+            echo "there is an error in your code format, correct it and push the code again!"
             exit 1
           fi
 
