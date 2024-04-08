@@ -51,9 +51,28 @@ jobs:
       - uses: actions/checkout@v2.1.0
         with:
           fetch-depth: 2
-      - name: FTP-Deploy-Action
+
+      - name: FTP-Deploy-Data
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.SERVER_FTP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
+          server: ${{ secrets.SERVER_FTP_DATA }}
+          username: ${{ secrets.SERVER_USERNAME_DATA }}
+          password: ${{ secrets.SERVER_PASSWORD_DATA }}
+          exclude: "public"
+
+      - name: Modify File Path
+        run: sed -i "s|/../storage/framework/maintenance.php|require __DIR__.'/../ftp_convert_file/storage/framework/maintenance.php|" ftp_convert_file/public/index.php
+
+      - name: Modify Autoload Path
+        run: sed -i "s|require __DIR__.'/../vendor/autoload.php';|require __DIR__.'/../ftp_convert_file/vendor/autoload.php';|" ftp_convert_file/public/index.php
+
+      - name: Modify Bootstrap Path
+        run: sed -i "s|require __DIR__.'/../bootstrap/app.php';|require __DIR__.'/../ftp_convert_file/bootstrap/app.php';|" ftp_convert_file/public/index.php
+
+      - name: FTP-Deploy-Public
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.SERVER_FTP_PUBLIC }}
+          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+          include: "public/*"
