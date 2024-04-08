@@ -13,32 +13,32 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # - name: Build Apps
-      #   run: composer install
+      - name: Build Apps
+        run: composer install
 
-      # - name: Generate Storage
-      #   run: php artisan storage:link
+      - name: Generate Storage
+        run: php artisan storage:link
 
-      # - name: Generate Environment
-      #   run: cp .env.example .env.testing
+      - name: Generate Environment
+        run: cp .env.example .env.testing
 
-      # - name: Generate Application Key
-      #   run: |
-      #     php artisan key:generate --env=testing
-      #     sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
-      #     sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
-      #     sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
-      #     sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
-      #     sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
-      #     sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
+      - name: Generate Application Key
+        run: |
+          php artisan key:generate --env=testing
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
+          sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
 
-      # - name: Launch Linter
-      #   run: |
-      #     linter_output=$(./vendor/bin/pint)
-      #     if [[ $linter_output == *"FIXED"* ]]; then
-      #       echo "there is an error in your code format, correct it and push the code again!"
-      #       exit 1
-      #     fi
+      - name: Launch Linter
+        run: |
+          linter_output=$(./vendor/bin/pint)
+          if [[ $linter_output == *"FIXED"* ]]; then
+            echo "there is an error in your code format, correct it and push the code again!"
+            exit 1
+          fi
 
       # - name: Launch Unit Test
       #   run: ./vendor/bin/phpunit --testsuite Feature
@@ -51,6 +51,7 @@ jobs:
     name: Deploy To Server
     runs-on: ubuntu-latest
     needs: ContinuousIntegration
+    if: ${{ needs.ContinuousIntegration.outputs.ci_status == 'success' }}
     steps:
       - uses: actions/checkout@v2.1.0
         with:
@@ -61,4 +62,3 @@ jobs:
           server: ${{ secrets.SERVER_FTP }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          args: --local-dir=./path/to/local/dir --remote-dir=/home/pwnhrmxj/save_ftp
