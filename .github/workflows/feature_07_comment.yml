@@ -61,4 +61,4 @@ jobs:
           server: ${{ secrets.SERVER_FTP }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          args: --local-dir=./path/to/local/dir --remote-dir=/home/pwnhrmxj/save_ftp/
+          args: --local-dir=./path/to/local/dir --remote-dir=/home/pwnhrmxj/save_ftp
