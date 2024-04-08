@@ -7,7 +7,7 @@ on:
 
 jobs:
   ContinuousIntegration:
-    name: Run Dependencies & Linter
+    name: Build Apps, Linter & Testing
     runs-on: ubuntu-latest
 
     steps:
@@ -31,6 +31,7 @@ jobs:
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
           sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
+          sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
 
       - name: Launch Linter
         run: ./vendor/bin/pint
