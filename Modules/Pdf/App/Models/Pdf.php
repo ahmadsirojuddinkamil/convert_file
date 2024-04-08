@@ -5,7 +5,6 @@ namespace Modules\Pdf\App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Jpg\App\Models\Jpg;
-use Modules\Pdf\Database\factories\PdfFactory;
 use Modules\Pdf\Database\Factories\PdfOwnerFactory;
 use Modules\Png\App\Models\Png;
 

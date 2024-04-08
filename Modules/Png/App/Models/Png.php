@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Pdf\App\Models\Pdf;
-use Modules\Png\Database\factories\PngFactory;
 use Modules\Png\Database\Factories\PngOwnerFactory;
 
 class Png extends Model

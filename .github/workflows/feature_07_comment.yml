@@ -34,7 +34,13 @@ jobs:
           sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
 
       - name: Launch Linter
-        run: ./vendor/bin/pint
+        # run: ./vendor/bin/pint
+        run: |
+          linter_output=$(./vendor/bin/pint)
+          if [[ $linter_output == *"FIXED"* ]]; then
+            echo "Linter detected issues and fixed them. Please commit the changes."
+            exit 1
+          fi
 
       - name: Launch Unit Test
         run: ./vendor/bin/phpunit --testsuite Feature
