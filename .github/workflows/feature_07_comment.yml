@@ -66,4 +66,4 @@ jobs:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          include: "public/**"
+          include: "public/**/*"
