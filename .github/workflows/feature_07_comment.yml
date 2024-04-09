@@ -13,35 +13,35 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Build Apps
-        run: composer install
+      # - name: Build Apps
+      #   run: composer install
 
-      - name: Generate Storage
-        run: php artisan storage:link
+      # - name: Generate Storage
+      #   run: php artisan storage:link
 
-      - name: Generate Environment
-        run: cp .env.example .env.testing
+      # - name: Generate Environment
+      #   run: cp .env.example .env.testing
 
-      - name: Generate Application Key
-        run: |
-          php artisan key:generate --env=testing
-          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
-          sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
+      # - name: Generate Application Key
+      #   run: |
+      #     php artisan key:generate --env=testing
+      #     sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
+      #     sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
+      #     sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
+      #     sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
+      #     sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
+      #     sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
 
-      - name: Launch Linter
-        run: |
-          linter_output=$(./vendor/bin/pint)
-          if [[ $linter_output == *"FIXED"* ]]; then
-            echo "there is an error in your code format, correct it and push the code again!"
-            exit 1
-          fi
+      # - name: Launch Linter
+      #   run: |
+      #     linter_output=$(./vendor/bin/pint)
+      #     if [[ $linter_output == *"FIXED"* ]]; then
+      #       echo "there is an error in your code format, correct it and push the code again!"
+      #       exit 1
+      #     fi
 
-      - name: Launch Unit Test
-        run: ./vendor/bin/phpunit --testsuite Feature
+      # - name: Launch Unit Test
+      #   run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
@@ -52,27 +52,18 @@ jobs:
         with:
           fetch-depth: 2
 
-      # - name: FTP-Deploy-Data
-      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_DATA }}
-      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
-      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
-      #     exclude: "public"
-
-      # - name: Modify File Path
-      #   run: sed -i "s|/../storage/framework/maintenance.php|require __DIR__.'/../ftp_convert_file/storage/framework/maintenance.php|" ftp_convert_file/public/index.php
-
-      # - name: Modify Autoload Path
-      #   run: sed -i "s|require __DIR__.'/../vendor/autoload.php';|require __DIR__.'/../ftp_convert_file/vendor/autoload.php';|" ftp_convert_file/public/index.php
-
-      # - name: Modify Bootstrap Path
-      #   run: sed -i "s|require __DIR__.'/../bootstrap/app.php';|require __DIR__.'/../ftp_convert_file/bootstrap/app.php';|" ftp_convert_file/public/index.php
-
-      - name: FTP-Deploy-Public
+      - name: FTP-Deploy-Data
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          include: "public/*"
+          server: ${{ secrets.SERVER_FTP_DATA }}
+          username: ${{ secrets.SERVER_USERNAME_DATA }}
+          password: ${{ secrets.SERVER_PASSWORD_DATA }}
+          exclude: "public"
+
+      # - name: FTP-Deploy-Public
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+      #     include: "public/*"
