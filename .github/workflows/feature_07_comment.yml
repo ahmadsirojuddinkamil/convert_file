@@ -52,18 +52,18 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: FTP-Deploy-Data
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
-          server: ${{ secrets.SERVER_FTP_DATA }}
-          username: ${{ secrets.SERVER_USERNAME_DATA }}
-          password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          exclude: "public/**"
-
-      # - name: FTP-Deploy-Public
+      # - name: FTP-Deploy-Data
       #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
       #   with:
-      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
-      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-      #     include: "public/*"
+      #     server: ${{ secrets.SERVER_FTP_DATA }}
+      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
+      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
+      #     exclude: "public/**"
+
+      - name: FTP-Deploy-Public
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.SERVER_FTP_PUBLIC }}
+          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+          include: "public/**"
