@@ -58,7 +58,7 @@ jobs:
           server: ${{ secrets.SERVER_FTP_DATA }}
           username: ${{ secrets.SERVER_USERNAME_DATA }}
           password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          exclude: "public"
+          exclude: "**/public/**"
 
       # - name: FTP-Deploy-Public
       #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
