@@ -60,21 +60,18 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
       #     exclude: "public/**"
 
-      # - name: FTP-Deploy-Public
-      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
-      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-      #     include: '["public"]'
-
-      - name: Upload from output to a remote server via FTP
-        uses: modern-dev/ftp-mirror@v2
+      - name: FTP-Deploy-Public
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
           local_dir: "./public/"
-          # remote_dir: "./http"
-          # delete: "false"
-          # exlude: "data/ cache/"
+
+      # - name: Upload from output to a remote server via FTP
+      #   uses: modern-dev/ftp-mirror@v2
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+      #     user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+      #     local_dir: "./public/"
