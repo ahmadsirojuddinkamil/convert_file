@@ -60,7 +60,7 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
       #     exclude: "public/**"
 
-      - name: FTP-Deploy-Public-with-FTP
+      - name: FTP-Deploy-Public
         uses: modern-dev/ftp-mirror@v2
         with:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
