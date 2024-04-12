@@ -68,10 +68,13 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
       #     include: '["public"]'
 
-      - name: FTP-Deploy-Public
-        uses: dennisameling/ftp-upload-action@v1
+      - name: Upload from output to a remote server via FTP
+        uses: modern-dev/ftp-mirror@v2
         with:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          local_dir: ./public/
+          local_dir: "./public/"
+          # remote_dir: "./http"
+          # delete: "false"
+          # exlude: "data/ cache/"
