@@ -68,18 +68,10 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
       #     include: '["public"]'
 
-      # - name: Upload from output to a remote server via FTP
-      #   uses: modern-dev/ftp-mirror@v2
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
-      #     user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-      #     local_dir: "./public/"
-
-      - name: Run martinkukolos/action-ftp-deployment@v1
-        uses: martinkukolos/action-ftp-deployment@v1
+      - name: Upload from output to a remote server via FTP
+        uses: modern-dev/ftp-mirror@v2
         with:
-          ftp-server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          ftp-user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-          ftp-password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          source-folder: "./public/"
+          server: ${{ secrets.SERVER_FTP_PUBLIC }}
+          user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+          local_dir: "./public/"
