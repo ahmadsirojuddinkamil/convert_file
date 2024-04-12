@@ -60,10 +60,18 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
       #     exclude: "public/**"
 
-      - name: FTP-Deploy-Public
-        uses: modern-dev/ftp-mirror@v2
+      # - name: FTP-Deploy-Public
+      #   uses: modern-dev/ftp-mirror@v2
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+      #     user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+      #     local_dir: "./public/"
+
+      - name: Fast FTP Action
+        uses: anvil-solutions/Fast-FTP-Action@2.1.0
         with:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
           local_dir: "./public/"
