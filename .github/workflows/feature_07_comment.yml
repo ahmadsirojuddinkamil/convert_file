@@ -75,4 +75,4 @@ jobs:
           port: 21
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          include: "[public]"
+          include: '["public"]'
