@@ -68,10 +68,10 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
       #     local_dir: "./public/"
 
-      - name: Transfer files via FTP
-        uses: ercindedeoglu/ftp-transfer-action@v2
+      - name: 📂 Sync files
+        uses: webitsbr/github-to-ftp@1.0.1
         with:
-          host: ${{ secrets.SERVER_FTP_PUBLIC }}
-          user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          server: ${{ secrets.SERVER_FTP_PUBLIC }}
+          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          source: "./public/"
+          local-dir: "./public/"
