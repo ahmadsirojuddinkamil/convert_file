@@ -68,11 +68,10 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
       #     include: '["public"]'
 
-      - name: FTP Deployer
-        uses: sand4rt/ftp-deployer@v1.8
+      - name: FTP-Deploy-Public
+        uses: dennisameling/ftp-upload-action@v1
         with:
-          host: ${{ secrets.SERVER_FTP_PUBLIC }}
-          port: 21
+          server: ${{ secrets.SERVER_FTP_PUBLIC }}
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          include: '["public/**/*"]'
+          local_dir: ./public/
