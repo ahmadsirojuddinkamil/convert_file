@@ -68,7 +68,7 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
       #     local_dir: "./public/"
 
-      - name: 📂 Sync files
+      - name: 📂 Sync files ftp
         uses: webitsbr/github-to-ftp@1.0.1
         with:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
