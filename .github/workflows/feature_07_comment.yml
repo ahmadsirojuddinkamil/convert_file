@@ -19,8 +19,8 @@ jobs:
       # - name: Generate Storage
       #   run: php artisan storage:link
 
-      # - name: Generate Environment
-      #   run: cp .env.example .env.testing
+      - name: Generate Environment
+        run: cp .env.example .env.testing
 
       # - name: Generate Application Key
       #   run: |
@@ -52,24 +52,24 @@ jobs:
         with:
           fetch-depth: 2
 
-      # - name: FTP-Deploy-Data
-      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_DATA }}
-      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
-      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
-      #     exclude: "public/**"
-
-      - name: Modify index.php
-        run: |
-          sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
-          sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
-          sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
-
-      - name: 📂 Sync files ftp
-        uses: webitsbr/github-to-ftp@1.0.1
+      - name: FTP-Deploy-Data
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          local-dir: "./public/"
+          server: ${{ secrets.SERVER_FTP_DATA }}
+          username: ${{ secrets.SERVER_USERNAME_DATA }}
+          password: ${{ secrets.SERVER_PASSWORD_DATA }}
+          exclude: "public/**, env.testing, .phpunit.result.cache"
+
+      # - name: Change App Data Location
+      #   run: |
+      #     sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
+      #     sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
+      #     sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
+
+      # - name: FTP-Deploy-Public
+      #   uses: webitsbr/github-to-ftp@1.0.1
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+      #     local-dir: "./public/"
