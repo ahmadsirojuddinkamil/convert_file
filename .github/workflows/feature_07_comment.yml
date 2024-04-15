@@ -22,21 +22,6 @@ jobs:
       # - name: Generate Environment Testing
       #   run: cp .env.example .env.testing
 
-      - name: Generate Environment Production
-        run: cp .env.example .env
-
-      - name: Generate Application Key
-        run: |
-          php artisan key:generate
-          sed -i 's/APP_NAME=local/APP_NAME=file convert/' .env
-          sed -i 's/APP_ENV=local/APP_ENV=production/' .env
-          sed -i 's/APP_DEBUG=local/APP_DEBUG=false/' .env
-          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
-
       # - name: Generate Application Key Testing
       #   run: |
       #     php artisan key:generate --env=testing
@@ -63,9 +48,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: ContinuousIntegration
     steps:
-      - uses: actions/checkout@v2.1.0
-        with:
-          fetch-depth: 2
+      - uses: actions/checkout@v3
+
+      - name: Generate Environment Production
+        run: |
+          if [[ "${{ github.event_name }}" == 'push' && "${{ github.ref }}" == 'refs/heads/master' ]]; then
+            cp .env.example .env
+          fi
+
+      - name: Generate Application Key
+        run: |
+          php artisan key:generate
+          sed -i 's/APP_NAME=local/APP_NAME=file convert/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=production/' .env
+          sed -i 's/APP_DEBUG=local/APP_DEBUG=false/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
 
       - name: FTP-Deploy-Data
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
