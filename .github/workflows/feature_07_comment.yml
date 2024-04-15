@@ -13,8 +13,8 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # - name: Build Apps
-      #   run: composer install
+      - name: Build Apps
+        run: composer install
 
       # - name: Generate Storage
       #   run: php artisan storage:link
@@ -49,11 +49,12 @@ jobs:
     needs: ContinuousIntegration
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   fetch-depth: 2
 
       - name: Generate Environment Production
-        run: cp .env.example .env
+        run: |
+          if [[ "${{ github.event_name }}" == 'push' && "${{ github.ref }}" == 'refs/heads/master' ]]; then
+            cp .env.example .env
+          fi
 
       - name: Generate Application Key
         run: |
