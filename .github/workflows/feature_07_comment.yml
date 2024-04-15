@@ -62,9 +62,9 @@ jobs:
 
       - name: Modify index.php
         run: |
-          sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
-          sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
-          sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
+          sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
+          sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
+          sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
 
       - name: 📂 Sync files ftp
         uses: webitsbr/github-to-ftp@1.0.1
