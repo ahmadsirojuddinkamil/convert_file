@@ -19,10 +19,10 @@ jobs:
       # - name: Generate Storage
       #   run: php artisan storage:link
 
-      - name: Generate Environment
-        run: cp .env.example .env.testing
+      # - name: Generate Environment Testing
+      #   run: cp .env.example .env.testing
 
-      # - name: Generate Application Key
+      # - name: Generate Application Key Testing
       #   run: |
       #     php artisan key:generate --env=testing
       #     sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
@@ -48,9 +48,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: ContinuousIntegration
     steps:
-      - uses: actions/checkout@v2.1.0
+      - uses: actions/checkout@v3
+        # - uses: actions/checkout@v2.1.0
         with:
           fetch-depth: 2
+
+      - name: Generate Environment Production
+        run: cp .env.example .env
+
+      - name: Generate Application Key
+        run: |
+          php artisan key:generate
+          sed -i 's/APP_NAME=local/APP_NAME=file convert/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=production/' .env
+          sed -i 's/APP_DEBUG=local/APP_DEBUG=false/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
 
       - name: FTP-Deploy-Data
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
@@ -58,7 +74,6 @@ jobs:
           server: ${{ secrets.SERVER_FTP_DATA }}
           username: ${{ secrets.SERVER_USERNAME_DATA }}
           password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          # exclude: "public/**, env.testing, .phpunit.result.cache"
           exclude: |
             public/**
             .env.testing
