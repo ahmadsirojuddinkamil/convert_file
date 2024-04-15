@@ -60,13 +60,11 @@ jobs:
       #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
       #     exclude: "public/**"
 
-      # - name: FTP-Deploy-Public
-      #   uses: modern-dev/ftp-mirror@v2
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
-      #     user: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-      #     local_dir: "./public/"
+      - name: Modify index.php
+        run: |
+          sed -i 's|/../storage/framework/maintenance.php|/ftp_convert_file/storage/framework/maintenance.php|g' index.php
+          sed -i 's|/../vendor/autoload.php|/ftp_convert_file/vendor/autoload.php|g' index.php
+          sed -i 's|/../bootstrap/app.php|/ftp_convert_file/bootstrap/app.php|g' index.php
 
       - name: 📂 Sync files ftp
         uses: webitsbr/github-to-ftp@1.0.1
