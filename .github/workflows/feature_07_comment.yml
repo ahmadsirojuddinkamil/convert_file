@@ -74,12 +74,12 @@ jobs:
       #       .env.testing
       #       phpunit.xml
 
-      - name: Change App Data Location
-        if: github.ref == 'refs/heads/master'
-        run: |
-          sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
-          sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
-          sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
+      # - name: Change App Data Location
+      #   if: github.ref == 'refs/heads/master'
+      #   run: |
+      #     sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
+      #     sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
+      #     sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
 
       - name: FTP-Deploy-Public
         if: github.ref == 'refs/heads/master'
