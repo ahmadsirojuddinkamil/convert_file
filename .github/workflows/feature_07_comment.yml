@@ -61,7 +61,8 @@ jobs:
           # exclude: "public/**, env.testing, .phpunit.result.cache"
           exclude: |
             public/**
-            env.testing
+            .env.testing
+            phpunit.xml
 
       # - name: Change App Data Location
       #   run: |
