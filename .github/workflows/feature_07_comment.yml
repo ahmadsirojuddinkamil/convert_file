@@ -58,7 +58,10 @@ jobs:
           server: ${{ secrets.SERVER_FTP_DATA }}
           username: ${{ secrets.SERVER_USERNAME_DATA }}
           password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          exclude: "public/**, env.testing, .phpunit.result.cache"
+          # exclude: "public/**, env.testing, .phpunit.result.cache"
+          exclude: |
+            public/**
+            env.testing
 
       # - name: Change App Data Location
       #   run: |
