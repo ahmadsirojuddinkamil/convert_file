@@ -58,11 +58,6 @@ jobs:
           sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
 
-  ContinuousDeployment:
-    name: Deploy To Server
-    runs-on: ubuntu-latest
-    needs: ContinuousIntegration
-    steps:
       - name: FTP-Deploy-Data
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
@@ -74,16 +69,32 @@ jobs:
             .env.testing
             phpunit.xml
 
-      # - name: Change App Data Location
-      #   run: |
-      #     sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
-      #     sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
-      #     sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
+  # ContinuousDeployment:
+  #   name: Deploy To Server
+  #   runs-on: ubuntu-latest
+  #   needs: ContinuousIntegration
+  #   steps:
+  #     - name: FTP-Deploy-Data
+  #       uses: SamKirkland/FTP-Deploy-Action@4.3.3
+  #       with:
+  #         server: ${{ secrets.SERVER_FTP_DATA }}
+  #         username: ${{ secrets.SERVER_USERNAME_DATA }}
+  #         password: ${{ secrets.SERVER_PASSWORD_DATA }}
+  #         exclude: |
+  #           public/**
+  #           .env.testing
+  #           phpunit.xml
 
-      # - name: FTP-Deploy-Public
-      #   uses: webitsbr/github-to-ftp@1.0.1
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
-      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-      #     local-dir: "./public/"
+  # - name: Change App Data Location
+  #   run: |
+  #     sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
+  #     sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
+  #     sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
+
+  # - name: FTP-Deploy-Public
+  #   uses: webitsbr/github-to-ftp@1.0.1
+  #   with:
+  #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+  #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+  #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+  #     local-dir: "./public/"
