@@ -49,9 +49,8 @@ jobs:
     needs: ContinuousIntegration
     steps:
       - uses: actions/checkout@v3
-        # - uses: actions/checkout@v2.1.0
-        with:
-          fetch-depth: 2
+        # with:
+        #   fetch-depth: 2
 
       - name: Generate Environment Production
         run: cp .env.example .env
@@ -68,16 +67,16 @@ jobs:
           sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
 
-      - name: FTP-Deploy-Data
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
-          server: ${{ secrets.SERVER_FTP_DATA }}
-          username: ${{ secrets.SERVER_USERNAME_DATA }}
-          password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          exclude: |
-            public/**
-            .env.testing
-            phpunit.xml
+      # - name: FTP-Deploy-Data
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_DATA }}
+      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
+      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
+      #     exclude: |
+      #       public/**
+      #       .env.testing
+      #       phpunit.xml
 
       # - name: Change App Data Location
       #   run: |
