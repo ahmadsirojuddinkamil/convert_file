@@ -31,7 +31,6 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |
 */
 
-// get autoload
 require __DIR__.'/../vendor/autoload.php';
 
 /*
