@@ -26,7 +26,6 @@ jobs:
       - name: Generate Application Key Testing
         run: |
           php artisan key:generate --env=testing
-          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
           sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
@@ -52,15 +51,18 @@ jobs:
       - name: Generate Application Key
         # if: github.ref == 'refs/heads/master'
         run: |
-          php artisan key:generate
-          sed -i 's/APP_NAME=local/APP_NAME=file convert/' .env
-          sed -i 's/APP_ENV=local/APP_ENV=production/' .env
-          sed -i 's/APP_DEBUG=local/APP_DEBUG=false/' .env
-          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
+          sed -i 's/APP_NAME=Laravel/APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}/' .env
+          sed -i 's/APP_KEY=/APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}/' .env
+          sed -i 's/APP_DEBUG=true/APP_DEBUG=${{ secrets.APP_DEBUG_PRODUCTION }}/' .env
+          sed -i 's/APP_URL=http://localhost/APP_URL=${{ secrets.APP_URL_PRODUCTION }}' .env
+
+          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=${{ secrets.DB_CONNECTION_PRODUCTION }} /' .env
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} /' .env
+          sed -i 's/DB_PORT=3306/DB_PORT=${{ secrets.DB_PORT_PRODUCTION }} /' .env
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} /' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} /' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} /' .env
 
       - name: FTP-Deploy-Data
         # if: github.ref == 'refs/heads/master'
