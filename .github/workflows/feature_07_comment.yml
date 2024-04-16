@@ -91,6 +91,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
           local-dir: "./public/"
 
-      - name: Setup Public Storage Symlink
+      - name: Run PHP script after FTP deployment
         # if: github.ref == 'refs/heads/master'
-        run: php -r "\$targetFolder = base_path().'/storage/app/public'; \$linkFolder = \$_SERVER['DOCUMENT_ROOT'].'/storage'; symlink(\$targetFolder, \$linkFolder);"
+        run: |
+          cd $GITHUB_WORKSPACE/public  # Navigasi ke direktori public dari proyek Laravel
+          php -r "\$targetFolder = dirname(__DIR__) . '/storage/app/public'; \$linkFolder = dirname(__DIR__) . '/storage'; symlink(\$targetFolder, \$linkFolder);"
