@@ -55,7 +55,7 @@ jobs:
           sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}/' .env
           sed -i 's/APP_KEY=/APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}/' .env
           sed -i 's/APP_DEBUG=true/APP_DEBUG=${{ secrets.APP_DEBUG_PRODUCTION }}/' .env
-          sed -i 's/APP_URL=http://localhost/APP_URL=${{ secrets.APP_URL_PRODUCTION }}' .env
+          sed -i 's/APP_URL=http://localhost/APP_URL=${{ secrets.APP_URL_PRODUCTION }}/' .env
 
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=${{ secrets.DB_CONNECTION_PRODUCTION }} /' .env
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} /' .env
