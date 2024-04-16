@@ -94,4 +94,4 @@ jobs:
       - name: Run PHP script after FTP deployment
         # if: github.ref == 'refs/heads/master'
         run: |
-          php -r "symlink(/home/pwnhrmxj/convert_file/storage/app/public, /home/pwnhrmxj/public_html/storage);"
+          php -r "symlink('/home/pwnhrmxj/convert_file/storage/app/public', '/home/pwnhrmxj/public_html/storage');"
