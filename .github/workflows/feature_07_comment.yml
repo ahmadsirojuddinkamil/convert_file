@@ -90,3 +90,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
           local-dir: "./public/"
+
+      - name: Setup Public Storage Symlink
+        # if: github.ref == 'refs/heads/master'
+        run: |
+          php -r '$targetFolder = base_path().'/storage/app/public'; $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage'; symlink($targetFolder, $linkFolder);'
