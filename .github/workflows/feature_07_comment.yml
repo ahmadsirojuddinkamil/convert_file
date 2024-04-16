@@ -81,6 +81,7 @@ jobs:
           sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
           sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
           rm -rf public/storage
+          rm -rf public/assets
 
       - name: FTP-Deploy-Public
         # if: github.ref == 'refs/heads/master'
@@ -90,3 +91,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
           local-dir: "./public/"
+
+      - name: Run PHP script to create symlink
+        # if: github.ref == 'refs/heads/master'
+        run: php -r "\$targetFolder = base_path().'/storage/app/public'; \$linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage'; symlink(\$targetFolder, \$linkFolder);"
