@@ -44,7 +44,7 @@ jobs:
       # - name: Launch Unit Test
       #   run: ./vendor/bin/phpunit --testsuite Feature
 
-      # DEPLOYMENT
+      # # DEPLOYMENT
       # - name: Generate Environment Production
       #   if: github.ref == 'refs/heads/master'
       #   run: cp .env.example .env
@@ -80,6 +80,7 @@ jobs:
           sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
           sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
           sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
+          rm -rf public/storage
 
       - name: FTP-Deploy-Public
         # if: github.ref == 'refs/heads/master'
@@ -88,6 +89,4 @@ jobs:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          exclude: |
-            public/storage/**
           local-dir: "./public/"
