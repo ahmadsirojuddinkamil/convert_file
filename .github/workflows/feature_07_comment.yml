@@ -94,5 +94,4 @@ jobs:
       - name: Run PHP script after FTP deployment
         # if: github.ref == 'refs/heads/master'
         run: |
-          cd $GITHUB_WORKSPACE/public  # Navigasi ke direktori public dari proyek Laravel
-          php -r "\$targetFolder = dirname(__DIR__) . '/storage/app/public'; \$linkFolder = dirname(__DIR__) . '/storage'; symlink(\$targetFolder, \$linkFolder);"
+          php -r "symlink(/home/pwnhrmxj/convert_file/storage/app/public, /home/pwnhrmxj/public_html/storage);"
