@@ -80,7 +80,7 @@ jobs:
           sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
           sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
           sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
-          rm -rf public/storage/*
+          rm -rf public/storage
 
       - name: FTP-Deploy-Public
         # if: github.ref == 'refs/heads/master'
@@ -90,8 +90,3 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
           local-dir: "./public/"
-
-      - name: Run PHP script after FTP deployment
-        # if: github.ref == 'refs/heads/master'
-        run: |
-          php -r "symlink('/home/pwnhrmxj/convert_file/storage/app/public', '/home/pwnhrmxj/public_html/storage');"
