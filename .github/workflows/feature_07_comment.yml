@@ -6,8 +6,8 @@ on:
       - feature_07_comment
 
 jobs:
-  ContinuousIntegration:
-    name: Build Apps, Linter & Testing
+  CICD:
+    name: Build Apps, Linter, Testing & Deployment
     runs-on: ubuntu-latest
     steps:
       - name: Get latest code
@@ -20,66 +20,66 @@ jobs:
       - name: Generate Storage
         run: php artisan storage:link
 
-      # - name: Generate Environment Testing
-      #   run: cp .env.example .env.testing
+      - name: Generate Environment Testing
+        run: cp .env.example .env.testing
 
-      # - name: Generate Application Key Testing
-      #   run: |
-      #     php artisan key:generate --env=testing
-      #     sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
-      #     sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
-      #     sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
-      #     sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
-      #     sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
-      #     sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
+      - name: Generate Application Key Testing
+        run: |
+          php artisan key:generate --env=testing
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env.testing
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
+          sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
 
-      # - name: Launch Linter
-      #   run: |
-      #     linter_output=$(./vendor/bin/pint)
-      #     if [[ $linter_output == *"FIXED"* ]]; then
-      #       echo "there is an error in your code format, correct it and push the code again!"
-      #       exit 1
-      #     fi
+      - name: Launch Linter
+        run: |
+          linter_output=$(./vendor/bin/pint)
+          if [[ $linter_output == *"FIXED"* ]]; then
+            echo "there is an error in your code format, correct it and push the code again!"
+            exit 1
+          fi
 
-      # - name: Launch Unit Test
-      #   run: ./vendor/bin/phpunit --testsuite Feature
+      - name: Launch Unit Test
+        run: ./vendor/bin/phpunit --testsuite Feature
 
-      # # DEPLOYMENT
-      # - name: Generate Environment Production
-      #   if: github.ref == 'refs/heads/master'
-      #   run: cp .env.example .env
+      # DEPLOYMENT
+      - name: Generate Environment Production
+        # if: github.ref == 'refs/heads/master'
+        run: cp .env.example .env
 
-      # - name: Generate Application Key
-      #   if: github.ref == 'refs/heads/master'
-      #   run: |
-      #     php artisan key:generate
-      #     sed -i 's/APP_NAME=local/APP_NAME=file convert/' .env
-      #     sed -i 's/APP_ENV=local/APP_ENV=production/' .env
-      #     sed -i 's/APP_DEBUG=local/APP_DEBUG=false/' .env
-      #     sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env
-      #     sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env
-      #     sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env
-      #     sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
-      #     sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
+      - name: Generate Application Key
+        # if: github.ref == 'refs/heads/master'
+        run: |
+          php artisan key:generate
+          sed -i 's/APP_NAME=local/APP_NAME=file convert/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=production/' .env
+          sed -i 's/APP_DEBUG=local/APP_DEBUG=false/' .env
+          sed -i 's/APP_ENV=local/APP_ENV=${{ secrets.APP_ENV }}/' .env
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env
 
-      # - name: FTP-Deploy-Data
-      #   if: github.ref == 'refs/heads/master'
-      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_DATA }}
-      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
-      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
-      #     exclude: |
-      #       public/**
-      #       .env.testing
-      #       phpunit.xml
+      - name: FTP-Deploy-Data
+        # if: github.ref == 'refs/heads/master'
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.SERVER_FTP_DATA }}
+          username: ${{ secrets.SERVER_USERNAME_DATA }}
+          password: ${{ secrets.SERVER_PASSWORD_DATA }}
+          exclude: |
+            public/**
+            .env.testing
+            phpunit.xml
 
       - name: Change App Data Location
         # if: github.ref == 'refs/heads/master'
         run: |
-          sed -i 's|/../storage/framework/maintenance.php|/../convert_file/storage/framework/maintenance.php|g' public/index.php
-          sed -i 's|/../vendor/autoload.php|/../convert_file/vendor/autoload.php|g' public/index.php
-          sed -i 's|/../bootstrap/app.php|/../convert_file/bootstrap/app.php|g' public/index.php
+          sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
+          sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
+          sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
           rm -rf public/storage
 
       - name: FTP-Deploy-Public
