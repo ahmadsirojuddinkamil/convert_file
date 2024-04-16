@@ -93,5 +93,4 @@ jobs:
 
       - name: Setup Public Storage Symlink
         # if: github.ref == 'refs/heads/master'
-        run: |
-          php -r '$targetFolder = base_path().'/storage/app/public'; $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage'; symlink($targetFolder, $linkFolder);'
+        run: php -r "\$targetFolder = base_path().'/storage/app/public'; \$linkFolder = \$_SERVER['DOCUMENT_ROOT'].'/storage'; symlink(\$targetFolder, \$linkFolder);"
