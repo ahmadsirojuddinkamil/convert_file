@@ -88,6 +88,6 @@ jobs:
           server: ${{ secrets.SERVER_FTP_PUBLIC }}
           username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
           password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          local-dir: "./public/"
           exclude: |
             public/storage/**
+          local-dir: "./public/"
