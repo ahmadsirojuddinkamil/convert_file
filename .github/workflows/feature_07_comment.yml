@@ -94,4 +94,4 @@ jobs:
 
       - name: Run PHP script to create symlink
         # if: github.ref == 'refs/heads/master'
-        run: php -r "\$targetFolder = base_path().'/storage/app/public'; \$linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage'; symlink(\$targetFolder, \$linkFolder);"
+        run: php -r "\$targetFolder = '/path/to/your/storage/app/public'; \$linkFolder = '/path/to/your/public_html/storage'; symlink(\$targetFolder, \$linkFolder);"
