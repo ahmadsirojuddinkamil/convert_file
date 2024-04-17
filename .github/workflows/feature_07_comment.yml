@@ -31,6 +31,9 @@ jobs:
           sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }} #' .env.testing
           sed -i 's#<env name="DB_DATABASE" value="convert_testing"/>#<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE_CICD }}"/>#' phpunit.xml
 
+      - name: Display .env.testing contents
+        run: cat .env.testing
+
       - name: Launch Linter
         run: |
           linter_output=$(./vendor/bin/pint)
