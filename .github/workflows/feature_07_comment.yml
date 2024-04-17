@@ -25,6 +25,7 @@ jobs:
       - name: Generate Application Key Testing
         run: |
           sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
+          sed -i 's#APP_KEY=local#APP_KEY=${{ secrets.APP_KEY_CICD }}#' .env.testing
 
           # sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
           # sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }} #" .env.testing
