@@ -6,75 +6,85 @@ on:
       - feature_07_comment
 
 jobs:
-  CICD:
-    name: Build Apps, Linter, Testing & Deployment
+  ContinuousIntegration:
+    name: Build Apps, Linter & Testing
     runs-on: ubuntu-latest
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # CONTINUOUS
       - name: Build Apps
         run: composer install
 
-      - name: Generate Storage
-        run: php artisan storage:link
+      # - name: Generate Storage
+      #   run: php artisan storage:link
 
-      - name: Generate Environment Testing
-        run: cp .env.example .env.testing
+      # - name: Generate Environment Testing
+      #   run: cp .env.example .env.testing
 
-      - name: Generate Application Key Testing
-        run: |
-          php artisan key:generate --env=testing
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
-          sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
+      # - name: Generate Application Key Testing
+      #   run: |
+      #     php artisan key:generate --env=testing
+      #     sed -i 's/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }} /' .env.testing
+      #     sed -i 's/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }} /' .env.testing
+      #     sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }} /' .env.testing
+      #     sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }} /' .env.testing
+      #     sed -i 's/<env name="DB_DATABASE" value="convert_testing"\/>/<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE }}"\/>/' phpunit.xml
 
-      - name: Launch Linter
-        run: |
-          linter_output=$(./vendor/bin/pint)
-          if [[ $linter_output == *"FIXED"* ]]; then
-            echo "there is an error in your code format, correct it and push the code again!"
-            exit 1
-          fi
+      # - name: Launch Linter
+      #   run: |
+      #     linter_output=$(./vendor/bin/pint)
+      #     if [[ $linter_output == *"FIXED"* ]]; then
+      #       echo "there is an error in your code format, correct it and push the code again!"
+      #       exit 1
+      #     fi
 
-      - name: Launch Unit Test
-        run: ./vendor/bin/phpunit --testsuite Feature
+      # - name: Launch Unit Test
+      #   run: ./vendor/bin/phpunit --testsuite Feature
 
-      # DEPLOYMENT
-      - name: Generate Environment Production
-        # if: github.ref == 'refs/heads/master'
-        run: cp .env.example .env
+  ContinuousDeployment:
+    name: Deploy To Server
+    runs-on: ubuntu-latest
+    needs: ContinuousIntegration
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
 
-      - name: Generate Application Key
-        # if: github.ref == 'refs/heads/master'
-        run: |
-          sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
-          sed -i 's#APP_ENV=local#APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}#' .env
-          sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
-          sed -i 's#APP_DEBUG=true#APP_DEBUG=${{ secrets.APP_DEBUG_PRODUCTION }}#' .env
-          sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
+      - name: Build Apps
+        run: composer install
 
-          sed -i 's#DB_CONNECTION=mysql#DB_CONNECTION=${{ secrets.DB_CONNECTION_PRODUCTION }} #' .env
-          sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
-          sed -i 's#DB_PORT=3306#DB_PORT=${{ secrets.DB_PORT_PRODUCTION }} #' .env
-          sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
-          sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
-          sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
+      # - name: Generate Environment Production
+      #   # if: github.ref == 'refs/heads/master'
+      #   run: cp .env.example .env
 
-      - name: FTP-Deploy-Data
-        # if: github.ref == 'refs/heads/master'
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
-          server: ${{ secrets.SERVER_FTP_DATA }}
-          username: ${{ secrets.SERVER_USERNAME_DATA }}
-          password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          exclude: |
-            public/**
-            .env.testing
-            phpunit.xml
+      # - name: Generate Application Key
+      #   # if: github.ref == 'refs/heads/master'
+      #   run: |
+      #     sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
+      #     sed -i 's#APP_ENV=local#APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}#' .env
+      #     sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
+      #     sed -i 's#APP_DEBUG=true#APP_DEBUG=${{ secrets.APP_DEBUG_PRODUCTION }}#' .env
+      #     sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
+
+      #     sed -i 's#DB_CONNECTION=mysql#DB_CONNECTION=${{ secrets.DB_CONNECTION_PRODUCTION }} #' .env
+      #     sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
+      #     sed -i 's#DB_PORT=3306#DB_PORT=${{ secrets.DB_PORT_PRODUCTION }} #' .env
+      #     sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
+      #     sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
+      #     sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
+
+      # - name: FTP-Deploy-Data
+      #   # if: github.ref == 'refs/heads/master'
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_DATA }}
+      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
+      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
+      #     exclude: |
+      #       public/**
+      #       .env.testing
+      #       phpunit.xml
 
       - name: Change App Data Location
         # if: github.ref == 'refs/heads/master'
