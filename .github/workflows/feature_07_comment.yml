@@ -24,15 +24,13 @@ jobs:
 
       - name: Generate Application Key Testing
         run: |
+          sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
           sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }}#' .env.testing
           sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #' .env.testing
           sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD }} #' .env.testing
           sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD }} #' .env.testing
           sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }} #' .env.testing
           sed -i 's#<env name="DB_DATABASE" value="convert_testing"/>#<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE_CICD }}"/>#' phpunit.xml
-
-      - name: Display .env.testing contents
-        run: cat .env.testing
 
       - name: Launch Linter
         run: |
@@ -42,8 +40,8 @@ jobs:
             exit 1
           fi
 
-      # - name: Launch Unit Test
-      #   run: ./vendor/bin/phpunit --testsuite Feature
+      - name: Launch Unit Test
+        run: ./vendor/bin/phpunit --testsuite Feature
 
   # ContinuousDeployment:
   #   name: Deploy To Server
@@ -63,14 +61,12 @@ jobs:
   #     - name: Generate Application Key
   #       run: |
   #         sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
-  #         sed -i 's#APP_ENV=local#APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}#' .env
+  #         sed -i 's#APP_ENV=local#APP_ENV=production#' .env
   #         sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
-  #         sed -i 's#APP_DEBUG=true#APP_DEBUG=${{ secrets.APP_DEBUG_PRODUCTION }}#' .env
+  #         sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
   #         sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
 
-  #         sed -i 's#DB_CONNECTION=mysql#DB_CONNECTION=${{ secrets.DB_CONNECTION_PRODUCTION }} #' .env
   #         sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
-  #         sed -i 's#DB_PORT=3306#DB_PORT=${{ secrets.DB_PORT_PRODUCTION }} #' .env
   #         sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
   #         sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
   #         sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
