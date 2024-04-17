@@ -24,9 +24,17 @@ jobs:
 
       - name: Generate Application Key Testing
         run: |
-          sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
-          sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }}#' .env.testing
-          sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #' .env.testing
+          # sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
+          # sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }}#' .env.testing
+          # sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #' .env.testing
+          # sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD }} #' .env.testing
+          # sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD }} #' .env.testing
+          # sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }} #' .env.testing
+          # sed -i 's#<env name="DB_DATABASE" value="convert_testing"/>#<env name="DB_DATABASE" value="${{ secrets.DB_DATABASE_CICD }}"/>#' phpunit.xml
+
+          sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
+          sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }} #' .env.testing
+          sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #' .env.testing          
           sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD }} #' .env.testing
           sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD }} #' .env.testing
           sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }} #' .env.testing
@@ -43,33 +51,33 @@ jobs:
       - name: Launch Unit Test
         run: ./vendor/bin/phpunit --testsuite Feature
 
-  # ContinuousDeployment:
-  #   name: Deploy To Server
-  #   runs-on: ubuntu-latest
-  #   needs: ContinuousIntegration
-  #   # if: github.ref == 'refs/heads/master'
-  #   steps:
-  #     - name: Get latest code
-  #       uses: actions/checkout@v3
+      # ContinuousDeployment:
+      #   name: Deploy To Server
+      #   runs-on: ubuntu-latest
+      #   needs: ContinuousIntegration
+      #   # if: github.ref == 'refs/heads/master'
+      #   steps:
+      #     - name: Get latest code
+      #       uses: actions/checkout@v3
 
-  #     - name: Build Apps
-  #       run: composer install
+      #     - name: Build Apps
+      #       run: composer install
 
-  #     - name: Generate Environment Production
-  #       run: cp .env.example .env
+      #     - name: Generate Environment Production
+      #       run: cp .env.example .env
 
-  #     - name: Generate Application Key
-  #       run: |
-  #         sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
-  #         sed -i 's#APP_ENV=local#APP_ENV=production#' .env
-  #         sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
-  #         sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
-  #         sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
+      # - name: Generate Application Key
+      #   run: |
+      #     sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
+      #     sed -i 's#APP_ENV=local#APP_ENV=production#' .env
+      #     sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
+      #     sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
+      #     sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
 
-  #         sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
-  #         sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
-  #         sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
-  #         sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
+      #     sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
+      #     sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
+      #     sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
+      #     sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
 
   #     - name: FTP-Deploy-Data
   #       uses: SamKirkland/FTP-Deploy-Action@4.3.3
