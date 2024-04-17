@@ -46,7 +46,7 @@ jobs:
     name: Deploy To Server
     runs-on: ubuntu-latest
     needs: ContinuousIntegration
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
@@ -55,11 +55,9 @@ jobs:
         run: composer install
 
       # - name: Generate Environment Production
-      #   # if: github.ref == 'refs/heads/master'
       #   run: cp .env.example .env
 
       # - name: Generate Application Key
-      #   # if: github.ref == 'refs/heads/master'
       #   run: |
       #     sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
       #     sed -i 's#APP_ENV=local#APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}#' .env
@@ -75,7 +73,6 @@ jobs:
       #     sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
 
       # - name: FTP-Deploy-Data
-      #   # if: github.ref == 'refs/heads/master'
       #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
       #   with:
       #     server: ${{ secrets.SERVER_FTP_DATA }}
@@ -86,19 +83,17 @@ jobs:
       #       .env.testing
       #       phpunit.xml
 
-      - name: Change App Data Location
-        # if: github.ref == 'refs/heads/master'
-        run: |
-          sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
-          sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
-          sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
-          rm -rf public/storage
+      # - name: Change App Data Location
+      #   run: |
+      #     sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
+      #     sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
+      #     sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
+      #     rm -rf public/storage
 
-      - name: FTP-Deploy-Public
-        # if: github.ref == 'refs/heads/master'
-        uses: webitsbr/github-to-ftp@1.0.1
-        with:
-          server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          local-dir: "./public/"
+      # - name: FTP-Deploy-Public
+      #   uses: webitsbr/github-to-ftp@1.0.1
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+      #     local-dir: "./public/"
