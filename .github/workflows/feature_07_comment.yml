@@ -13,94 +13,96 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
+      # - name: Build Apps
+      #   run: composer install
+
+      # - name: Generate Storage
+      #   run: php artisan storage:link
+
+      # - name: Generate Environment Testing
+      #   run: cp .env.example .env.testing
+
+      # - name: Generate Application Key Testing
+      #   run: |
+      #     echo "APP_ENV=testing" >> .env.testing
+      #     echo "APP_KEY=${{ secrets.APP_KEY_CICD }}" >> .env.testing
+      #     echo "DB_HOST=${{ secrets.DB_HOST_CICD }}" >> .env.testing
+      #     echo "DB_DATABASE=${{ secrets.DB_DATABASE_CICD }}" >> .env.testing
+      #     echo "DB_USERNAME=${{ secrets.DB_USERNAME_CICD }}" >> .env.testing
+      #     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }}" >> .env.testing
+      #     sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD }}\"/>#" phpunit.xml
+
+      # - name: Linter
+      #   run: |
+      #     linter_output=$(./vendor/bin/pint)
+      #     if [[ $linter_output == *"FIXED"* ]]; then
+      #       echo "there is an error in your code format, correct it and push the code again!"
+      #       exit 1
+      #     fi
+
+      # - name: Unit Test
+      #   run: ./vendor/bin/phpunit --testsuite Feature
+
+  ContinuousDeployment:
+    name: Deploy To Server
+    runs-on: ubuntu-latest
+    needs: ContinuousIntegration
+    # if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
       - name: Build Apps
         run: composer install
 
-      - name: Generate Storage
-        run: php artisan storage:link
+      - name: Generate Environment Production
+        run: cp .env.example .env
 
-      - name: Generate Environment Testing
-        run: cp .env.example .env.testing
-
-      - name: Generate Application Key Testing
+      - name: Generate Application Key
         run: |
-          echo "APP_ENV=testing" >> .env.testing
-          echo "APP_KEY=${{ secrets.APP_KEY_CICD }}" >> .env.testing
-          echo "DB_HOST=${{ secrets.DB_HOST_CICD }}" >> .env.testing
-          echo "DB_DATABASE=${{ secrets.DB_DATABASE_CICD }}" >> .env.testing
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME_CICD }}" >> .env.testing
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }}" >> .env.testing
-          sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD }}\"/>#" phpunit.xml
+          # sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
+          # sed -i 's#APP_ENV=local#APP_ENV=production#' .env
+          # sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
+          # sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
+          # sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
 
-          # echo "APP_ENV=testing" >> .env.testing
-          # echo "APP_KEY=base64:Vsd0X8df3I2ha/hT+RKMRuuXQmd73tFJIKN1VnoZrwo=" >> .env.testing
-          # echo "DB_HOST=103.140.90.110" >> .env.testing
-          # echo "DB_DATABASE=wxyfronn_convert_new" >> .env.testing
-          # echo "DB_USERNAME=wxyfronn_user_remote" >> .env.testing
-          # echo "DB_PASSWORD=m^XPuU1OgYmy" >> .env.testing
-          # sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"wxyfronn_convert_new\"/>#" phpunit.xml
+          # sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
+          # sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
+          # sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
+          # sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
 
-      - name: Launch Linter
+          echo "APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}" >> .env
+          echo "APP_ENV=production" >> .env
+          echo "APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}" >> .env
+          echo "APP_DEBUG=false" >> .env
+          echo "APP_URL=${{ secrets.APP_URL_PRODUCTION }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST_PRODUCTION }}" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }}" >> .env
+
+      # - name: FTP-Deploy-Data
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_DATA }}
+      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
+      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
+      #     exclude: |
+      #       public/**
+      #       .env.testing
+      #       phpunit.xml
+
+      - name: Change App Data Location
         run: |
-          linter_output=$(./vendor/bin/pint)
-          if [[ $linter_output == *"FIXED"* ]]; then
-            echo "there is an error in your code format, correct it and push the code again!"
-            exit 1
-          fi
+          sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
+          sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
+          sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
+          rm -rf public/storage
 
-      - name: Launch Unit Test
-        run: ./vendor/bin/phpunit --testsuite Feature
-
-      # ContinuousDeployment:
-      #   name: Deploy To Server
-      #   runs-on: ubuntu-latest
-      #   needs: ContinuousIntegration
-      #   # if: github.ref == 'refs/heads/master'
-      #   steps:
-      #     - name: Get latest code
-      #       uses: actions/checkout@v3
-
-      #     - name: Build Apps
-      #       run: composer install
-
-      #     - name: Generate Environment Production
-      #       run: cp .env.example .env
-
-      # - name: Generate Application Key
-      #   run: |
-      #     sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
-      #     sed -i 's#APP_ENV=local#APP_ENV=production#' .env
-      #     sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
-      #     sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
-      #     sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
-
-      #     sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
-      #     sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
-      #     sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
-      #     sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
-
-  #     - name: FTP-Deploy-Data
-  #       uses: SamKirkland/FTP-Deploy-Action@4.3.3
-  #       with:
-  #         server: ${{ secrets.SERVER_FTP_DATA }}
-  #         username: ${{ secrets.SERVER_USERNAME_DATA }}
-  #         password: ${{ secrets.SERVER_PASSWORD_DATA }}
-  #         exclude: |
-  #           public/**
-  #           .env.testing
-  #           phpunit.xml
-
-  #     - name: Change App Data Location
-  #       run: |
-  #         sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
-  #         sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
-  #         sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
-  #         rm -rf public/storage
-
-  #     - name: FTP-Deploy-Public
-  #       uses: webitsbr/github-to-ftp@1.0.1
-  #       with:
-  #         server: ${{ secrets.SERVER_FTP_PUBLIC }}
-  #         username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-  #         password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-  #         local-dir: "./public/"
+      - name: FTP-Deploy-Public
+        uses: webitsbr/github-to-ftp@1.0.1
+        with:
+          server: ${{ secrets.SERVER_FTP_PUBLIC }}
+          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+          local-dir: "./public/"
