@@ -70,16 +70,24 @@ jobs:
           echo "DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }}" >> .env
 
+      # - name: FTP-Deploy-Data
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_DATA }}
+      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
+      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
+      #     exclude: |
+      #       public/**
+      #       .env.testing
+      #       phpunit.xml
+
       - name: FTP-Deploy-Data
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        uses: webitsbr/github-to-ftp@1.0.1
         with:
           server: ${{ secrets.SERVER_FTP_DATA }}
           username: ${{ secrets.SERVER_USERNAME_DATA }}
           password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          exclude: |
-            public/**
-            .env.testing
-            phpunit.xml
+          local-dir: ".env"
 
       # - name: Change App Data Location
       #   run: |
