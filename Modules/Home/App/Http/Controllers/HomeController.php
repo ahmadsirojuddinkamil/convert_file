@@ -25,23 +25,23 @@ class HomeController extends Controller
         // $logContent = file_get_contents($logFile);
         // dd($logContent);
 
-        $logFile = storage_path('logs/laravel.log');
-        $logContent = file($logFile);
+        // $logFile = storage_path('logs/laravel.log');
+        // $logContent = file($logFile);
 
-        $logMethods = ['info', 'emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'debug'];
-        $logDetails = [];
+        // $logMethods = ['info', 'emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'debug'];
+        // $logDetails = [];
 
-        foreach ($logContent as $logLine) {
-            foreach ($logMethods as $method) {
-                if (strpos($logLine, strtoupper($method)) !== false) {
-                    $logDetails[$method][] = $logLine;
-                }
-            }
-        }
+        // foreach ($logContent as $logLine) {
+        //     foreach ($logMethods as $method) {
+        //         if (strpos($logLine, strtoupper($method)) !== false) {
+        //             $logDetails[$method][] = $logLine;
+        //         }
+        //     }
+        // }
 
-        file_put_contents($logFile, '');
+        // file_put_contents($logFile, '');
 
-        dd($logDetails);
+        // dd($logDetails);
 
         return view('home::layouts.home.index', compact('comments'));
     }
