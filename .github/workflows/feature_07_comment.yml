@@ -52,8 +52,8 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # - name: Build Apps
-      #   run: composer install
+      - name: Build Apps
+        run: composer install
 
       - name: Generate Environment Production
         run: cp .env.example .env
@@ -77,9 +77,12 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME_DATA }}
           password: ${{ secrets.SERVER_PASSWORD_DATA }}
           exclude: |
-            public/**
-            .env.testing
-            phpunit.xml
+            # public/**
+            # .env.testing
+            # phpunit.xml
+
+            *
+            !.env
 
       # - name: Change App Data Location
       #   run: |
