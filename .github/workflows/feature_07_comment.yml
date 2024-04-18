@@ -60,49 +60,38 @@ jobs:
 
       - name: Generate Application Key
         run: |
-          # sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}#' .env
-          # sed -i 's#APP_ENV=local#APP_ENV=production#' .env
-          # sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}#' .env
-          # sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
-          # sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_PRODUCTION }}#' .env
-
-          # sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_PRODUCTION }} #' .env
-          # sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }} #' .env
-          # sed -i 's#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }} #' .env
-          # sed -i 's#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }} #' .env
-
           echo "APP_NAME=${{ secrets.APP_NAME_PRODUCTION }}" >> .env
-          echo "APP_ENV=production" >> .env
+          echo "APP_ENV=${{ secrets.APP_ENV_PRODUCTION }}" >> .env
           echo "APP_KEY=${{ secrets.APP_KEY_PRODUCTION }}" >> .env
-          echo "APP_DEBUG=false" >> .env
+          echo "APP_DEBUG=${{ secrets.APP_DEBUG_PRODUCTION }}" >> .env
           echo "APP_URL=${{ secrets.APP_URL_PRODUCTION }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST_PRODUCTION }}" >> .env
           echo "DB_DATABASE=${{ secrets.DB_DATABASE_PRODUCTION }}" >> .env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME_PRODUCTION }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_PRODUCTION }}" >> .env
 
-      # - name: FTP-Deploy-Data
-      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
-      #   with:
-      #     server: ${{ secrets.SERVER_FTP_DATA }}
-      #     username: ${{ secrets.SERVER_USERNAME_DATA }}
-      #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
-      #     exclude: |
-      #       public/**
-      #       .env.testing
-      #       phpunit.xml
-
-      - name: Change App Data Location
-        run: |
-          sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
-          sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
-          sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
-          rm -rf public/storage
-
-      - name: FTP-Deploy-Public
-        uses: webitsbr/github-to-ftp@1.0.1
+      - name: FTP-Deploy-Data
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.SERVER_FTP_PUBLIC }}
-          username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
-          password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
-          local-dir: "./public/"
+          server: ${{ secrets.SERVER_FTP_DATA }}
+          username: ${{ secrets.SERVER_USERNAME_DATA }}
+          password: ${{ secrets.SERVER_PASSWORD_DATA }}
+          exclude: |
+            public/**
+            .env.testing
+            phpunit.xml
+
+      # - name: Change App Data Location
+      #   run: |
+      #     sed -i 's|/../storage/framework/maintenance.php|/../ftp_convert_file/storage/framework/maintenance.php|g' public/index.php
+      #     sed -i 's|/../vendor/autoload.php|/../ftp_convert_file/vendor/autoload.php|g' public/index.php
+      #     sed -i 's|/../bootstrap/app.php|/../ftp_convert_file/bootstrap/app.php|g' public/index.php
+      #     rm -rf public/storage
+
+      # - name: FTP-Deploy-Public
+      #   uses: webitsbr/github-to-ftp@1.0.1
+      #   with:
+      #     server: ${{ secrets.SERVER_FTP_PUBLIC }}
+      #     username: ${{ secrets.SERVER_USERNAME_PUBLIC }}
+      #     password: ${{ secrets.SERVER_PASSWORD_PUBLIC }}
+      #     local-dir: "./public/"
