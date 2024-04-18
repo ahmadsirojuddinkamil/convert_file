@@ -24,7 +24,14 @@ jobs:
 
       - name: Generate Application Key Testing
         run: |
-          sed -i 's#APP_ENV=testing#APP_ENV=production#' .env.testing
+          # echo "APP_ENV=testing" >> .env.testing
+          # echo "APP_KEY=${{ secrets.APP_KEY_CICD }}" >> .env.testing
+          # echo "DB_HOST=${{ secrets.DB_HOST_CICD }}" >> .env.testing
+          # echo "DB_DATABASE=${{ secrets.DB_DATABASE_CICD }}" >> .env.testing
+          # echo "DB_USERNAME=${{ secrets.DB_USERNAME_CICD }}" >> .env.testing
+          # echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }}" >> .env.testing
+
+          sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
           sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }}#" .env.testing
           sed -i "s#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #" .env.testing
           sed -i "s#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD }} #" .env.testing
