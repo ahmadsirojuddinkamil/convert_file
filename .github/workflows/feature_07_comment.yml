@@ -87,7 +87,7 @@ jobs:
           server: ${{ secrets.SERVER_FTP_DATA }}
           username: ${{ secrets.SERVER_USERNAME_DATA }}
           password: ${{ secrets.SERVER_PASSWORD_DATA }}
-          local-dir: ".env"
+          local-dir: ".env/"
 
       # - name: Change App Data Location
       #   run: |
