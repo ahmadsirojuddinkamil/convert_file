@@ -13,43 +13,35 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # - name: Build Apps
-      #   run: composer install
+      - name: Build Apps
+        run: composer install
 
-      # - name: Generate Storage
-      #   run: php artisan storage:link
+      - name: Generate Storage
+        run: php artisan storage:link
 
       - name: Generate Environment Testing
         run: cp .env.example .env.testing
 
       - name: Generate Application Key Testing
         run: |
-          # echo "APP_ENV=testing" >> .env.testing
-          # echo "APP_KEY=${{ secrets.APP_KEY_CICD }}" >> .env.testing
-          # echo "DB_HOST=${{ secrets.DB_HOST_CICD }}" >> .env.testing
-          # echo "DB_DATABASE=${{ secrets.DB_DATABASE_CICD }}" >> .env.testing
-          # echo "DB_USERNAME=${{ secrets.DB_USERNAME_CICD }}" >> .env.testing
-          # echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }}" >> .env.testing
-
           sed -i 's#APP_ENV=testing#APP_ENV=production#' .env.testing
           sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }}#" .env.testing
           sed -i "s#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #" .env.testing
           sed -i "s#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD }} #" .env.testing
           sed -i "s#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD }} #" .env.testing
           sed -i "s#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }} #" .env.testing
-
           sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD }}\"/>#" phpunit.xml
 
-      # - name: Linter
-      #   run: |
-      #     linter_output=$(./vendor/bin/pint)
-      #     if [[ $linter_output == *"FIXED"* ]]; then
-      #       echo "there is an error in your code format, correct it and push the code again!"
-      #       exit 1
-      #     fi
+      - name: Linter
+        run: |
+          linter_output=$(./vendor/bin/pint)
+          if [[ $linter_output == *"FIXED"* ]]; then
+            echo "there is an error in your code format, correct it and push the code again!"
+            exit 1
+          fi
 
-      # - name: Unit Test
-      #   run: ./vendor/bin/phpunit --testsuite Feature
+      - name: Unit Test
+        run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
