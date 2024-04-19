@@ -63,8 +63,8 @@ jobs:
           sed -i 's#APP_NAME=Laravel#APP_NAME=${{ secrets.APP_NAME_CONVERT_PRODUCTION }}#' .env
           sed -i 's#APP_ENV=local#APP_ENV=production#' .env
           sed -i 's#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CONVERT_PRODUCTION }}#' .env
-          # sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
-          # sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_CONVERT_PRODUCTION }}#' .env
+          sed -i 's#APP_DEBUG=true#APP_DEBUG=false#' .env
+          sed -i 's#APP_URL=http://localhost#APP_URL=${{ secrets.APP_URL_CONVERT_PRODUCTION }}#' .env
 
           # sed -i 's#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CONVERT_PRODUCTION }} #' .env
           # sed -i 's#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CONVERT_PRODUCTION }} #' .env
