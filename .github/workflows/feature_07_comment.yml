@@ -16,7 +16,7 @@ jobs:
       - name: Build Apps
         run: composer install
 
-      - name: Generate Storage
+      - name: Generate Storage Testing
         run: php artisan storage:link
 
       - name: Generate Environment Testing
