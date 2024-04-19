@@ -22,10 +22,6 @@ class HomeController extends Controller
         // Log::debug('Debug information logged!');
 
         // $logFile = storage_path('logs/laravel.log');
-        // $logContent = file_get_contents($logFile);
-        // dd($logContent);
-
-        // $logFile = storage_path('logs/laravel.log');
         // $logContent = file($logFile);
 
         // $logMethods = ['info', 'emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'debug'];

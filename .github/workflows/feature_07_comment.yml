@@ -25,12 +25,12 @@ jobs:
       - name: Generate Application Key Testing
         run: |
           sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
-          sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD }}#" .env.testing
-          sed -i "s#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD }} #" .env.testing
-          sed -i "s#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD }} #" .env.testing
-          sed -i "s#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD }} #" .env.testing
-          sed -i "s#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD }} #" .env.testing
-          sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD }}\"/>#" phpunit.xml
+          sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD_CONVERT }}#" .env.testing
+          sed -i "s#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD_CONVERT }} #" .env.testing
+          sed -i "s#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD_CONVERT }} #" .env.testing
+          sed -i "s#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD_CONVERT }} #" .env.testing
+          sed -i "s#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD_CONVERT }} #" .env.testing
+          sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD_CONVERT }}\"/>#" phpunit.xml
 
       - name: Linter
         run: |
@@ -52,8 +52,8 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Build Apps
-        run: composer install
+      # - name: Build Apps
+      #   run: composer install
 
       # - name: Generate Environment Production
       #   run: cp .env.example .env
@@ -78,12 +78,9 @@ jobs:
       #     username: ${{ secrets.SERVER_USERNAME_DATA }}
       #     password: ${{ secrets.SERVER_PASSWORD_DATA }}
       #     exclude: |
-      #       # public/**
-      #       # .env.testing
-      #       # phpunit.xml
-
-      #       # *
-      #       # !.env
+      #       public/**
+      #       .env.testing
+      #       phpunit.xml
 
       # - name: Change App Data Location
       #   run: |
