@@ -4,7 +4,6 @@ namespace Modules\Home\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\ValidationService;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Pdf\App\Models\Pdf;
@@ -76,14 +75,16 @@ class DeleteConvertController extends Controller
 
     public function deleteConvert10Minute()
     {
-        $currentTime = Carbon::now()->subMinutes(10);
+        $currentTime = time() - (10 * 60); // 10 menit yang lalu
         $countDeleted = 0;
 
         $jpgs = Jpg::with('pngs', 'pdfs')->latest()->get();
         if (!$jpgs->isEmpty()) {
             foreach ($jpgs as $jpg) {
                 foreach ($jpg->pngs as $png) {
-                    if ($png->created_at >= $currentTime) {
+                    $createdTime = strtotime($png->created_at);
+
+                    if ($createdTime <= $currentTime) {
                         Storage::delete('public/' . $png->file);
                         $png->delete();
                         $countDeleted++;
@@ -91,7 +92,9 @@ class DeleteConvertController extends Controller
                 }
 
                 foreach ($jpg->pdfs as $pdf) {
-                    if ($pdf->created_at >= $currentTime) {
+                    $createdTime = strtotime($pdf->created_at);
+
+                    if ($createdTime <= $currentTime) {
                         Storage::delete('public/' . $pdf->file);
                         Storage::delete('public/' . $pdf->preview);
                         $pdf->delete();
@@ -99,7 +102,8 @@ class DeleteConvertController extends Controller
                     }
                 }
 
-                if ($jpg->pngs->isEmpty() && $jpg->pdfs->isEmpty() && $jpg->created_at >= $currentTime) {
+                $createdTime = strtotime($jpg->created_at);
+                if ($jpg->pngs->isEmpty() && $jpg->pdfs->isEmpty() && $createdTime <= $currentTime) {
                     $jpg->delete();
                     $countDeleted++;
                 }
@@ -110,7 +114,9 @@ class DeleteConvertController extends Controller
         if (!$pngs->isEmpty()) {
             foreach ($pngs as $png) {
                 foreach ($png->jpgs as $jpg) {
-                    if ($jpg->created_at >= $currentTime) {
+                    $createdTime = strtotime($jpg->created_at);
+
+                    if ($createdTime <= $currentTime) {
                         Storage::delete('public/' . $jpg->file);
                         $jpg->delete();
                         $countDeleted++;
@@ -118,7 +124,9 @@ class DeleteConvertController extends Controller
                 }
 
                 foreach ($png->pdfs as $pdf) {
-                    if ($pdf->created_at >= $currentTime) {
+                    $createdTime = strtotime($pdf->created_at);
+
+                    if ($createdTime <= $currentTime) {
                         Storage::delete('public/' . $pdf->file);
                         Storage::delete('public/' . $pdf->preview);
                         $pdf->delete();
@@ -126,7 +134,8 @@ class DeleteConvertController extends Controller
                     }
                 }
 
-                if ($png->jpgs->isEmpty() && $png->pdfs->isEmpty() && $png->created_at >= $currentTime) {
+                $createdTime = strtotime($png->created_at);
+                if ($png->jpgs->isEmpty() && $png->pdfs->isEmpty() && $createdTime <= $currentTime) {
                     $png->delete();
                     $countDeleted++;
                 }
@@ -137,7 +146,9 @@ class DeleteConvertController extends Controller
         if (!$pdfs->isEmpty()) {
             foreach ($pdfs as $pdf) {
                 foreach ($pdf->jpgs as $jpg) {
-                    if ($jpg->created_at >= $currentTime) {
+                    $createdTime = strtotime($jpg->created_at);
+
+                    if ($createdTime <= $currentTime) {
                         Storage::delete('public/' . $jpg->file);
                         $jpg->delete();
                         $countDeleted++;
@@ -145,14 +156,17 @@ class DeleteConvertController extends Controller
                 }
 
                 foreach ($pdf->pngs as $png) {
-                    if ($png->created_at >= $currentTime) {
+                    $createdTime = strtotime($png->created_at);
+
+                    if ($createdTime <= $currentTime) {
                         Storage::delete('public/' . $png->file);
                         $png->delete();
                         $countDeleted++;
                     }
                 }
 
-                if ($pdf->jpgs->isEmpty() && $pdf->pngs->isEmpty() && $pdf->created_at >= $currentTime) {
+                $createdTime = strtotime($pdf->created_at);
+                if ($pdf->jpgs->isEmpty() && $pdf->pngs->isEmpty() && $createdTime >= $currentTime) {
                     $pdf->delete();
                     $countDeleted++;
                 }

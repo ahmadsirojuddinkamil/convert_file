@@ -13,35 +13,35 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # - name: Build Apps
-      #   run: composer install
+      - name: Build Apps
+        run: composer install
 
-      # - name: Generate Storage
-      #   run: php artisan storage:link
+      - name: Generate Storage
+        run: php artisan storage:link
 
-      # - name: Generate Environment Testing
-      #   run: cp .env.example .env.testing
+      - name: Generate Environment Testing
+        run: cp .env.example .env.testing
 
-      # - name: Generate Application Key Testing
-      #   run: |
-      #     sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
-      #     sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD_CONVERT }}#" .env.testing
-      #     sed -i "s#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD_CONVERT }} #" .env.testing
-      #     sed -i "s#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD_CONVERT }} #" .env.testing
-      #     sed -i "s#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD_CONVERT }} #" .env.testing
-      #     sed -i "s#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD_CONVERT }} #" .env.testing
-      #     sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD_CONVERT }}\"/>#" phpunit.xml
+      - name: Generate Application Key Testing
+        run: |
+          sed -i 's#APP_ENV=local#APP_ENV=testing#' .env.testing
+          sed -i "s#APP_KEY=#APP_KEY=${{ secrets.APP_KEY_CICD_CONVERT }}#" .env.testing
+          sed -i "s#DB_HOST=127.0.0.1#DB_HOST=${{ secrets.DB_HOST_CICD_CONVERT }} #" .env.testing
+          sed -i "s#DB_DATABASE=laravel#DB_DATABASE=${{ secrets.DB_DATABASE_CICD_CONVERT }} #" .env.testing
+          sed -i "s#DB_USERNAME=root#DB_USERNAME=${{ secrets.DB_USERNAME_CICD_CONVERT }} #" .env.testing
+          sed -i "s#DB_PASSWORD=#DB_PASSWORD=${{ secrets.DB_PASSWORD_CICD_CONVERT }} #" .env.testing
+          sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD_CONVERT }}\"/>#" phpunit.xml
 
-      # - name: Linter
-      #   run: |
-      #     linter_output=$(./vendor/bin/pint)
-      #     if [[ $linter_output == *"FIXED"* ]]; then
-      #       echo "there is an error in your code format, correct it and push the code again!"
-      #       exit 1
-      #     fi
+      - name: Linter
+        run: |
+          linter_output=$(./vendor/bin/pint)
+          if [[ $linter_output == *"FIXED"* ]]; then
+            echo "there is an error in your code format, correct it and push the code again!"
+            exit 1
+          fi
 
-      # - name: Unit Test
-      #   run: ./vendor/bin/phpunit --testsuite Feature
+      - name: Unit Test
+        run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
@@ -52,35 +52,35 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Build Apps
-        run: composer install
+      # - name: Build Apps
+      #   run: composer install
 
-      - name: Generate Environment Production
-        run: cp .env.example .env
+      # - name: Generate Environment Production
+      #   run: cp .env.example .env
 
-      - name: Generate Application Key
-        run: |
-          sed -i 's|APP_NAME=Laravel|APP_NAME=${{ secrets.APP_NAME_CONVERT_PRODUCTION }}|' .env
-          sed -i 's|APP_ENV=local|APP_ENV=production|' .env
-          sed -i 's|APP_KEY=|APP_KEY=${{ secrets.APP_KEY_CONVERT_PRODUCTION }}|' .env
-          sed -i 's|APP_DEBUG=true|APP_DEBUG=false|' .env
-          sed -i 's|APP_URL=http://localhost|APP_URL=${{ secrets.APP_URL_CONVERT_PRODUCTION }}|' .env
+      # - name: Generate Application Key
+      #   run: |
+      #     sed -i 's|APP_NAME=Laravel|APP_NAME=${{ secrets.APP_NAME_CONVERT_PRODUCTION }}|' .env
+      #     sed -i 's|APP_ENV=local|APP_ENV=production|' .env
+      #     sed -i 's|APP_KEY=|APP_KEY=${{ secrets.APP_KEY_CONVERT_PRODUCTION }}|' .env
+      #     sed -i 's|APP_DEBUG=true|APP_DEBUG=false|' .env
+      #     sed -i 's|APP_URL=http://localhost|APP_URL=${{ secrets.APP_URL_CONVERT_PRODUCTION }}|' .env
 
-          sed -i 's|DB_HOST=127.0.0.1|DB_HOST=${{ secrets.DB_HOST_CONVERT_PRODUCTION }} |' .env
-          sed -i 's|DB_DATABASE=laravel|DB_DATABASE=${{ secrets.DB_DATABASE_CONVERT_PRODUCTION }} |' .env
-          sed -i 's|DB_USERNAME=root|DB_USERNAME=${{ secrets.DB_USERNAME_CONVERT_PRODUCTION }} |' .env
-          sed -i "s|DB_PASSWORD=|DB_PASSWORD=${{ secrets.DB_USERNAME_CONVERT_PRODUCTION }}|" .env
+      #     sed -i 's|DB_HOST=127.0.0.1|DB_HOST=${{ secrets.DB_HOST_CONVERT_PRODUCTION }} |' .env
+      #     sed -i 's|DB_DATABASE=laravel|DB_DATABASE=${{ secrets.DB_DATABASE_CONVERT_PRODUCTION }} |' .env
+      #     sed -i 's|DB_USERNAME=root|DB_USERNAME=${{ secrets.DB_USERNAME_CONVERT_PRODUCTION }} |' .env
+      #     sed -i "s|DB_PASSWORD=|DB_PASSWORD=${{ secrets.DB_PASSWORD_CONVERT_PRODUCTION }}|" .env
 
-      - name: FTP-Deploy-Data
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
-          server: ${{ secrets.FTP_HOST_CONVERT }}
-          username: ${{ secrets.FTP_USERNAME_CONVERT_DATA }}
-          password: ${{ secrets.FTP_PASSWORD_CONVERT_DATA }}
-          exclude: |
-            public/**
-            .env.testing
-            phpunit.xml
+      # - name: FTP-Deploy-Data
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      #   with:
+      #     server: ${{ secrets.FTP_HOST_CONVERT }}
+      #     username: ${{ secrets.FTP_USERNAME_CONVERT_DATA }}
+      #     password: ${{ secrets.FTP_PASSWORD_CONVERT_DATA }}
+      #     exclude: |
+      #       public/**
+      #       .env.testing
+      #       phpunit.xml
 
       # - name: Change App Data Location
       #   run: |
