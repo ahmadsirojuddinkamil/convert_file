@@ -1,28 +1,21 @@
-<!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap"
     rel="stylesheet">
 
-<!-- Icon Font Stylesheet -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-<!-- Libraries Stylesheet -->
 <link href="{{ asset('assets/home/lib/animate/animate.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/home/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
-<!-- Customized Bootstrap Stylesheet -->
 <link href="{{ asset('assets/home/css/bootstrap.min.css') }}" rel="stylesheet">
 
-<!-- Template Stylesheet -->
 <link href="{{ asset('assets/home/css/style.css') }}" rel="stylesheet">
 
-{{-- bootstrap icon --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
     integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
 
-{{-- style input star comment --}}
 <style>
     .rating {
         display: inline-block;
@@ -91,7 +84,6 @@
     }
 </style>
 
-{{-- style list img --}}
 <style>
     ul.horizontal-list {
         display: flex;
@@ -105,6 +97,5 @@
     ul.horizontal-list li {
         flex: 0 0 auto;
         margin-right: 10px;
-        /* Atur jarak antara item */
     }
 </style>

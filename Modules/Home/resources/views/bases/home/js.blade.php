@@ -1,4 +1,3 @@
-<!-- JavaScript Libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/home/lib/wow/wow.min.js') }}"></script>
@@ -7,17 +6,14 @@
 <script src="{{ asset('assets/home/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<!-- Template Javascript -->
 <script src="{{ asset('assets/home/js/main.js') }}"></script>
 
-{{-- js for input star comment --}}
 <script>
     $(':radio').change(function() {
         console.log('New star rating: ' + this.value);
     });
 </script>
 
-{{-- validate File image --}}
 <script>
     let checkPreviewImage = document.getElementById("preview-image");
     let checkPreviewImageName = document.getElementById("preview-name");
@@ -105,7 +101,6 @@
     }
 </script>
 
-{{-- validate file pdf --}}
 <script>
     let previewImagePdf = document.getElementById("previewImagePdf");
     let previewNamePdf = document.getElementById("previewNamePdf");
@@ -249,7 +244,6 @@
     
 </script>
 
-{{-- progress bar submit pdf --}}
 <script>
     function animasiSubmitPdf(event) {
         const tagInputPdfs = ['pdf-to-jpg', 'pdf-to-png'];
@@ -316,7 +310,6 @@
     }
 </script>
 
-{{-- progress bar submit img --}}
 <script>
     function startProcess(event) {
         const tagInputIds = ['jpg-to-png', 'png-to-jpg', 'jpg-to-pdf', 'pdf-to-jpg', 'png-to-pdf'];
@@ -362,7 +355,6 @@
     }
 </script>
 
-{{-- target reply endpoint & clear value input for refresh --}}
 <script>
     const ownership = localStorage.getItem('ownership');
     const forms = ['reply-jpg-to-png', 'reply-png-to-jpg', 'reply-jpg-to-pdf', 'reply-pdf-to-jpg', 'reply-png-to-pdf'];
@@ -375,7 +367,6 @@
     });
 </script>
 
-{{-- preview image --}}
 <script>
     let currentImage = null;
 
@@ -425,7 +416,6 @@
     }
 </script>
 
-{{-- refresh every 10 minutes and run the function --}}
 <script>
     setTimeout(function() {
         const checkOwnershipFile = localStorage.getItem('ownership');
@@ -447,7 +437,6 @@
     }, 600000);
 </script>
 
-{{-- delete all files that take more than 10 minutes --}}
 <script>
     setTimeout(function() {
             axios.post(`/delete-convert/10-minute`, {
