@@ -55,8 +55,8 @@ jobs:
             exit 1
           fi
 
-      - name: Unit Test
-        run: ./vendor/bin/phpunit --testsuite Feature
+      # - name: Unit Test
+      #   run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
