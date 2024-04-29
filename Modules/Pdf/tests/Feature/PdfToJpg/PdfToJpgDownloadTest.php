@@ -2,6 +2,7 @@
 
 namespace Modules\Pdf\tests\Feature\PdfToJpg;
 
+use App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,14 @@ use Ramsey\Uuid\Uuid;
 class PdfToJpgDownloadTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_download_result_pdf_to_jpg_success(): void
     {
@@ -37,6 +46,13 @@ class PdfToJpgDownloadTest extends TestCase
         $response->assertHeader('content-type', 'image/jpeg');
 
         Storage::delete('public/document_pdf_to_jpg/' . $fileName);
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully downloads the pdf to jpg conversion result with jpg uuid:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_download_result_pdf_to_jpg_failed_because_not_uuid(): void

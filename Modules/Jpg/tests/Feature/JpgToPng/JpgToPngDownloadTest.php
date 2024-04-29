@@ -2,6 +2,7 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPng;
 
+use App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Jpg\App\Models\Jpg;
@@ -11,6 +12,14 @@ use Ramsey\Uuid\Uuid;
 class JpgToPngDownloadTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_download_result_jpg_to_png_success(): void
     {
@@ -28,6 +37,13 @@ class JpgToPngDownloadTest extends TestCase
         $response = $this->get("/jpg-to-png/$png->uuid/download");
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'image/png');
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully downloads the jpg to png conversion result with png uuid:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_download_result_jpg_to_png_failed_because_not_uuid(): void

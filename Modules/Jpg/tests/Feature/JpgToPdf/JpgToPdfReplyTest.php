@@ -2,6 +2,7 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPdf;
 
+use App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -13,6 +14,14 @@ use Ramsey\Uuid\Uuid;
 class JpgToPdfReplyTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_reply_jpg_to_pdf_success(): void
     {
@@ -60,6 +69,13 @@ class JpgToPdfReplyTest extends TestCase
         $response->assertStatus(302);
         $this->assertTrue(session()->has('success'));
         $this->assertEquals('File jpg berhasil di convert ke pdf!', session('success'));
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully reply convert jpg to pdf:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_reply_jpg_to_pdf_failed_because_form_is_empty(): void

@@ -2,6 +2,7 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPdf;
 
+use App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,14 @@ use Ramsey\Uuid\Uuid;
 class JpgToPdfShowTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_show_jpg_to_pdf_success(): void
     {
@@ -54,6 +63,13 @@ class JpgToPdfShowTest extends TestCase
         $pdfFiles = $response->original->getData()['pdfFiles'];
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $pdfFiles);
         $this->assertGreaterThan(0, $pdfFiles->count());
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully viewed jpg to pdf data with uuid jpg: ';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_show_jpg_to_pdf_failed_because_not_uuid(): void

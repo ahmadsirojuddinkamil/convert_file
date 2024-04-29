@@ -3,7 +3,9 @@
 namespace Modules\Png\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\TimeService;
 use App\Services\ValidationService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\Pdf\App\Models\Pdf;
 use Modules\Png\App\Http\Requests\CreatePngToPdfRequest;
@@ -14,11 +16,13 @@ class PngToPdfController extends Controller
 {
     protected $pngToPdfService;
     protected $validationService;
+    protected $timeService;
 
-    public function __construct(PngToPdfService $pngToPdfService, ValidationService $validationService)
+    public function __construct(PngToPdfService $pngToPdfService, ValidationService $validationService, TimeService $timeService)
     {
         $this->pngToPdfService = $pngToPdfService;
         $this->validationService = $validationService;
+        $this->timeService = $timeService;
     }
 
     public function index()
@@ -31,9 +35,13 @@ class PngToPdfController extends Controller
 
     public function create(CreatePngToPdfRequest $request)
     {
-        $validateData = $request->validated();
+        $startTime = $this->timeService->startCalculateProcessTime();
 
+        $validateData = $request->validated();
         $uuidOwner = $this->pngToPdfService->convertAndSave($validateData['file']);
+
+        $finalTime = $this->timeService->endCalculateProcessTime($startTime);
+        Log::info('user successfully convert png to pdf: ' . $finalTime . ' detik');
 
         return redirect('/png-to-pdf/' . $uuidOwner)->with([
             'uuid' => $uuidOwner,
@@ -60,13 +68,16 @@ class PngToPdfController extends Controller
         $title = 'File Convert - Png To Pdf';
         $typeConvert = 'PNG to PDF Converter';
 
+        Log::info('user successfully viewed png to pdf data with uuid png: ', ['uuid' => $saveUuidFromCall]);
+
         return view('png::layouts.pngToPdf.show', compact('pdfFiles', 'title', 'typeConvert'));
     }
 
     public function reply(CreatePngToPdfRequest $request, $saveUuidFromCall)
     {
-        $validateData = $request->validated();
+        $startTime = $this->timeService->startCalculateProcessTime();
 
+        $validateData = $request->validated();
         $validateUuid = $this->validationService->validationUuid($saveUuidFromCall);
 
         if ($validateUuid === false) {
@@ -74,6 +85,9 @@ class PngToPdfController extends Controller
         }
 
         $uuidOwner = $this->pngToPdfService->convertAndSave($validateData['file'], $saveUuidFromCall);
+
+        $finalTime = $this->timeService->endCalculateProcessTime($startTime);
+        Log::info('user successfully reply convert png to pdf: ' . $finalTime . ' detik, uuid: ' . $saveUuidFromCall);
 
         return redirect('/png-to-pdf/' . $uuidOwner)->with([
             'uuid' => $uuidOwner,
@@ -97,6 +111,8 @@ class PngToPdfController extends Controller
 
         $filePath = 'public/' . $result->file;
         $fileName = pathinfo($result->name, PATHINFO_FILENAME) . '.pdf';
+
+        Log::info('user successfully downloads the png to pdf conversion result with pdf uuid: ', ['uuid' => $saveUuidFromCall]);
 
         return response(Storage::get($filePath))
             ->header('Content-Type', 'application/pdf')

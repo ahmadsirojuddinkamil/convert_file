@@ -3,7 +3,8 @@
 namespace Modules\Jpg\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\ValidationService;
+use App\Services\{TimeService, ValidationService};
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\Jpg\App\Http\Requests\CreateJpgToPdfRequest;
 use Modules\Jpg\App\Models\Jpg;
@@ -14,11 +15,13 @@ class JpgToPdfController extends Controller
 {
     protected $jpgToPdfService;
     protected $validationService;
+    protected $timeService;
 
-    public function __construct(JpgToPdfService $jpgToPdfService, ValidationService $validationService)
+    public function __construct(JpgToPdfService $jpgToPdfService, ValidationService $validationService, TimeService $timeService)
     {
         $this->jpgToPdfService = $jpgToPdfService;
         $this->validationService = $validationService;
+        $this->timeService = $timeService;
     }
 
     public function index()
@@ -30,9 +33,14 @@ class JpgToPdfController extends Controller
 
     public function create(CreateJpgToPdfRequest $request)
     {
-        $validateData = $request->validated();
+        $startTime = $this->timeService->startCalculateProcessTime();
 
+        $validateData = $request->validated();
         $uuidOwner = $this->jpgToPdfService->convertAndSave($validateData['file']);
+
+        $finalTime = $this->timeService->endCalculateProcessTime($startTime);
+
+        Log::info('user successfully convert jpg to pdf: ' . $finalTime . ' detik');
 
         return redirect('/jpg-to-pdf/' . $uuidOwner)->with([
             'uuid' => $uuidOwner,
@@ -59,13 +67,16 @@ class JpgToPdfController extends Controller
         $title = 'File Convert - Jpg To Pdf';
         $typeConvert = 'JPG to PDF Converter';
 
+        Log::info('user successfully viewed jpg to pdf data with uuid jpg: ', ['uuid' => $saveUuidFromCall]);
+
         return view('jpg::layouts.jpgToPdf.show', compact('pdfFiles', 'title', 'typeConvert'));
     }
 
     public function reply(CreateJpgToPdfRequest $request, $saveUuidFromCall)
     {
-        $validateData = $request->validated();
+        $startTime = $this->timeService->startCalculateProcessTime();
 
+        $validateData = $request->validated();
         $validateUuid = $this->validationService->validationUuid($saveUuidFromCall);
 
         if ($validateUuid === false) {
@@ -73,6 +84,10 @@ class JpgToPdfController extends Controller
         }
 
         $uuidOwner = $this->jpgToPdfService->convertAndSave($validateData['file'], $saveUuidFromCall);
+
+        $finalTime = $this->timeService->endCalculateProcessTime($startTime);
+
+        Log::info('user successfully reply convert jpg to pdf: ' . $finalTime . ' detik, uuid: ' . $saveUuidFromCall);
 
         return redirect('/jpg-to-pdf/' . $uuidOwner)->with([
             'uuid' => $uuidOwner,
@@ -96,6 +111,8 @@ class JpgToPdfController extends Controller
 
         $filePath = 'public/' . $result->file;
         $fileName = pathinfo($result->name, PATHINFO_FILENAME) . '.pdf';
+
+        Log::info('user successfully downloads the jpg to pdf conversion result with pdf uuid: ', ['uuid' => $saveUuidFromCall]);
 
         return response(Storage::get($filePath))
             ->header('Content-Type', 'application/pdf')

@@ -20,4 +20,18 @@ class ValidationServiceTest extends TestCase
         $result = $validatedData->validationUuid('uuid');
         $this->assertFalse($result);
     }
+
+    public function test_validate_password_success(): void
+    {
+        $validatedData = new ValidationService();
+        $result = $validatedData->validationPassword('a92e209d-cdd9-4315-8ffe-9103ed8ea5ac');
+        $this->assertNull($result);
+    }
+
+    public function test_validate_password_failed_because_not_uuid(): void
+    {
+        $validatedData = new ValidationService();
+        $result = $validatedData->validationPassword('password');
+        $this->assertFalse($result);
+    }
 }

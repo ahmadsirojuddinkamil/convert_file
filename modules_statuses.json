@@ -3,5 +3,6 @@
     "Home": true,
     "Png": true,
     "Pdf": true,
-    "Comment": true
+    "Comment": true,
+    "Monitoring": true
 }

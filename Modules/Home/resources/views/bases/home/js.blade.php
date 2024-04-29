@@ -438,14 +438,13 @@
 </script>
 
 <script>
-    setTimeout(function() {
-            axios.post(`/delete-convert/10-minute`, {
-                _method: 'DELETE'
-            })
-            .then(response => {
-            })
-            .catch(error => {
-            });
-    }, 5000);
-
+    // setTimeout(function() {
+    //         axios.post(`/delete-convert/10-minute`, {
+    //             _method: 'DELETE'
+    //         })
+    //         .then(response => {
+    //         })
+    //         .catch(error => {
+    //         });
+    // }, 5000);
 </script>

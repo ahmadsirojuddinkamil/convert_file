@@ -3,7 +3,9 @@
 namespace Modules\Png\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\TimeService;
 use App\Services\ValidationService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Png\App\Http\Requests\CreatePngToJpgRequest;
@@ -14,11 +16,13 @@ class PngToJpgController extends Controller
 {
     protected $pngToJpgService;
     protected $validationService;
+    protected $timeService;
 
-    public function __construct(PngToJpgService $pngToJpgService, ValidationService $validationService)
+    public function __construct(PngToJpgService $pngToJpgService, ValidationService $validationService, TimeService $timeService)
     {
         $this->pngToJpgService = $pngToJpgService;
         $this->validationService = $validationService;
+        $this->timeService = $timeService;
     }
 
     public function index()
@@ -30,9 +34,13 @@ class PngToJpgController extends Controller
 
     public function create(CreatePngToJpgRequest $request)
     {
-        $validateData = $request->validated();
+        $startTime = $this->timeService->startCalculateProcessTime();
 
+        $validateData = $request->validated();
         $uuidOwner = $this->pngToJpgService->convertAndSave($validateData);
+
+        $finalTime = $this->timeService->endCalculateProcessTime($startTime);
+        Log::info('user successfully convert png to jpg: ' . $finalTime . ' detik');
 
         return redirect('/png-to-jpg/' . $uuidOwner)->with([
             'uuid' => $uuidOwner,
@@ -59,13 +67,16 @@ class PngToJpgController extends Controller
         $title = 'File Convert - Png To Jpg';
         $typeConvert = 'PNG to JPG Converter';
 
+        Log::info('user successfully viewed png to jpg data with uuid png: ', ['uuid' => $saveUuidFromCall]);
+
         return view('png::layouts.pngToJpg.show', compact('jpgFiles', 'title', 'typeConvert'));
     }
 
     public function reply(CreatePngToJpgRequest $request, $saveUuidFromCall)
     {
-        $validateData = $request->validated();
+        $startTime = $this->timeService->startCalculateProcessTime();
 
+        $validateData = $request->validated();
         $validateUuid = $this->validationService->validationUuid($saveUuidFromCall);
 
         if ($validateUuid === false) {
@@ -73,6 +84,9 @@ class PngToJpgController extends Controller
         }
 
         $uuidOwner = $this->pngToJpgService->convertAndSave($validateData, $saveUuidFromCall);
+
+        $finalTime = $this->timeService->endCalculateProcessTime($startTime);
+        Log::info('user successfully reply convert png to jpg: ' . $finalTime . ' detik, uuid: ' . $saveUuidFromCall);
 
         return redirect('/png-to-jpg/' . $uuidOwner)->with([
             'uuid' => $uuidOwner,
@@ -96,6 +110,8 @@ class PngToJpgController extends Controller
 
         $filePath = 'public/' . $result->file;
         $fileName = pathinfo($result->name, PATHINFO_FILENAME) . '.jpg';
+
+        Log::info('user successfully downloads the png to jpg conversion result with jpg uuid: ', ['uuid' => $saveUuidFromCall]);
 
         return response(Storage::get($filePath))
             ->header('Content-Type', 'image/jpeg')

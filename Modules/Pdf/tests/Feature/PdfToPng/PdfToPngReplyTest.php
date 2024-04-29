@@ -2,6 +2,7 @@
 
 namespace Modules\Pdf\tests\Feature\PdfToPng;
 
+use App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -13,6 +14,14 @@ use Ramsey\Uuid\Uuid;
 class PdfToPngReplyTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_reply_pdf_to_png_success(): void
     {
@@ -61,6 +70,13 @@ class PdfToPngReplyTest extends TestCase
         $response->assertStatus(302);
         $this->assertTrue(session()->has('success'));
         $this->assertEquals('File pdf berhasil di convert ke png!', session('success'));
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully reply convert pdf to png:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_reply_pdf_to_png_failed_because_not_uuid(): void
