@@ -36,8 +36,8 @@ jobs:
       - name: Generate Env Logging
         run: |
           cat << 'EOF' >> .env.testing
-          LOGGING_RESULT='$2y$10$PCfujU.22a2mHPZzTSyApOSN8DzExntEI7A3Q2OUCHBvs575A5ilG'
-          LOGGING_SALT='$2y$10$L.DlvqbXC28Kxi92jY4xt.Q8kznxY9Zx4/RalL.Q.BU.PlV6ujfYK'
+          LOGGING_RESULT='${{ secrets.LOGGING_RESULT_CONVERT_TESTING }}'
+          LOGGING_SALT='${{ secrets.LOGGING_SALT_CONVERT_TESTING }}'
           EOF
 
       # - name: View .env.testing
