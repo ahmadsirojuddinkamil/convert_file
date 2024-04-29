@@ -56,8 +56,7 @@ jobs:
           fi
 
       - name: Unit Test
-        # run: ./vendor/bin/phpunit --testsuite Feature
-        run: ./vendor/bin/phpunit --filter=GetDataLoggingTest
+        run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
