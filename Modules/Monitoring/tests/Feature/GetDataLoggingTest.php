@@ -20,7 +20,7 @@ class GetDataLoggingTest extends TestCase
     {
         Log::info('testing data logging');
 
-        $response = $this->get('/logging/0191f719-243e-4f56-bb80-a4d199c282b4');
+        $response = $this->get('/api/logging/0191f719-243e-4f56-bb80-a4d199c282b4');
         $response->assertStatus(200);
         $responseData = $response->json();
         $this->assertEquals('success get data logging!', $responseData['message']);
@@ -35,13 +35,13 @@ class GetDataLoggingTest extends TestCase
 
     public function test_get_data_logging_failed_because_not_uuid(): void
     {
-        $response = $this->get('/logging/uuid');
+        $response = $this->get('/api/logging/uuid');
         $response->assertStatus(404);
     }
 
     public function test_get_data_logging_failed_because_password_not_found(): void
     {
-        $response = $this->get('/logging/c8956131-5f9b-4ebd-99f3-9612089f1567');
+        $response = $this->get('/api/logging/c8956131-5f9b-4ebd-99f3-9612089f1567');
         $response->assertStatus(404);
     }
 }
