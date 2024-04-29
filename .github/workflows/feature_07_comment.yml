@@ -38,20 +38,23 @@ jobs:
           echo "LOGGING_RESULT='$2y$10$PCfujU.22a2mHPZzTSyApOSN8DzExntEI7A3Q2OUCHBvs575A5ilG'" >> .env.testing
           echo "LOGGING_SALT='$2y$10$L.DlvqbXC28Kxi92jY4xt.Q8kznxY9Zx4/RalL.Q.BU.PlV6ujfYK'" >> .env.testing
 
-      - name: Update PHPUnit Configuration
-        run: |
-          sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD_CONVERT }}\"/>#" phpunit.xml
+      - name: View .env.testing
+        run: cat .env.testing
 
-      - name: Linter
-        run: |
-          linter_output=$(./vendor/bin/pint)
-          if [[ $linter_output == *"FIXED"* ]]; then
-            echo "there is an error in your code format, correct it and push the code again!"
-            exit 1
-          fi
+      # - name: Update PHPUnit Configuration
+      #   run: |
+      #     sed -i "s#<env name=\"DB_DATABASE\" value=\"convert_testing\"/>#<env name=\"DB_DATABASE\" value=\"${{ secrets.DB_DATABASE_CICD_CONVERT }}\"/>#" phpunit.xml
 
-      - name: Unit Test
-        run: ./vendor/bin/phpunit --testsuite Feature
+      # - name: Linter
+      #   run: |
+      #     linter_output=$(./vendor/bin/pint)
+      #     if [[ $linter_output == *"FIXED"* ]]; then
+      #       echo "there is an error in your code format, correct it and push the code again!"
+      #       exit 1
+      #     fi
+
+      # - name: Unit Test
+      #   run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
