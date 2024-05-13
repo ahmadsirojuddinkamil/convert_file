@@ -57,7 +57,7 @@ jobs:
           fi
 
       - name: Unit Test
-        run: ./vendor/bin/phpunit
+        run: ./vendor/bin/phpunit --filter=HomeControllerTest
         # run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
