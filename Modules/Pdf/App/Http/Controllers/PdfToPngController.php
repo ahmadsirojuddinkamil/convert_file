@@ -2,14 +2,13 @@
 
 namespace Modules\Pdf\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\TimeService;
-use App\Services\ValidationService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Modules\Utility\App\Services\{TimeService, ValidationService};
 use Modules\Pdf\App\Http\Requests\CreatePdfToPngRequest;
-use Modules\Pdf\App\Models\Pdf;
 use Modules\Pdf\App\Services\PdfToPngService;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+use Modules\Pdf\App\Models\Pdf;
 use Modules\Png\App\Models\Png;
 
 class PdfToPngController extends Controller

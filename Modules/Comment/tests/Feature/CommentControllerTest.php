@@ -2,8 +2,8 @@
 
 namespace Modules\Comment\tests\Feature;
 
-use Tests\TestCase;
 use Ramsey\Uuid\Uuid;
+use Tests\TestCase;
 
 class CommentControllerTest extends TestCase
 {

@@ -4,5 +4,6 @@
     "Png": true,
     "Pdf": true,
     "Comment": true,
-    "Monitoring": true
+    "Monitoring": true,
+    "Utility": true
 }

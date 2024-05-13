@@ -2,15 +2,14 @@
 
 namespace Modules\Pdf\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\TimeService;
-use App\Services\ValidationService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Modules\Jpg\App\Models\Jpg;
+use Modules\Utility\App\Services\{TimeService, ValidationService};
 use Modules\Pdf\App\Http\Requests\CreatePdfToJpgRequest;
-use Modules\Pdf\App\Models\Pdf;
 use Modules\Pdf\App\Services\PdfToJpgService;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+use Modules\Jpg\App\Models\Jpg;
+use Modules\Pdf\App\Models\Pdf;
 
 class PdfToJpgController extends Controller
 {

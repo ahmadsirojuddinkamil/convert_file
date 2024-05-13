@@ -2,13 +2,13 @@
 
 namespace Modules\Jpg\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\{TimeService, ValidationService};
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Modules\Utility\App\Services\{TimeService, ValidationService};
 use Modules\Jpg\App\Http\Requests\CreateJpgToPdfRequest;
-use Modules\Jpg\App\Models\Jpg;
 use Modules\Jpg\App\Services\JpgToPdfService;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+use Modules\Jpg\App\Models\Jpg;
 use Modules\Pdf\App\Models\Pdf;
 
 class JpgToPdfController extends Controller

@@ -8,14 +8,18 @@ class StorageLinkController extends Controller
 {
     public function generateStorageLink()
     {
-        if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/storage')) {
-            $targetFolder = base_path().'/storage/app/public';
-            $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
-            symlink($targetFolder, $linkFolder);
+        $randomString = shell_exec('openssl rand -hex 32');
+        $hashedUuid = hash('sha256', $randomString);
+        return $hashedUuid;
 
-            return response()->json(['message' => 'success create storage link!'], 200);
-        }
+        // if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/storage')) {
+        //     $targetFolder = base_path().'/storage/app/public';
+        //     $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
+        //     symlink($targetFolder, $linkFolder);
 
-        return abort(404);
+        //     return response()->json(['message' => 'success create storage link!'], 200);
+        // }
+
+        // return abort(404);
     }
 }

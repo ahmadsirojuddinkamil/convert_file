@@ -2,7 +2,7 @@
 
 namespace Modules\Png\tests\Feature\PngToPdf;
 
-use App\Services\LoggingService;
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;

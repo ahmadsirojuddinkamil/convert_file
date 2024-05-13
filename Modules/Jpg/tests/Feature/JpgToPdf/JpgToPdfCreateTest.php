@@ -2,12 +2,12 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPdf;
 
-use App\Services\LoggingService;
-use Tests\TestCase;
+use Modules\Utility\App\Services\LoggingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Modules\Pdf\App\Models\Pdf;
+use Tests\TestCase;
 
 class JpgToPdfCreateTest extends TestCase
 {

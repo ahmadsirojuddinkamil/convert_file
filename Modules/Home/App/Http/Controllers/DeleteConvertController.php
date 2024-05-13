@@ -2,9 +2,9 @@
 
 namespace Modules\Home\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\ValidationService;
+use Modules\Utility\App\Services\ValidationService;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Pdf\App\Models\Pdf;
 use Modules\Png\App\Models\Png;

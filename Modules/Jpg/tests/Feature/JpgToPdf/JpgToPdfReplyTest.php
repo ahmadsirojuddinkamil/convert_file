@@ -2,7 +2,7 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPdf;
 
-use App\Services\LoggingService;
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
