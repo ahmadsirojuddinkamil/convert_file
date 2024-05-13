@@ -41,8 +41,8 @@ jobs:
           JWT_SECRET_MONITORING='${{ secrets.JWT_SECRET_MONITORING_TESTING }}'
           EOF
 
-      - name: View .env.testing
-        run: cat .env.testing
+      # - name: View .env.testing
+      #   run: cat .env.testing
 
       - name: Update PHPUnit Configuration
         run: |
@@ -57,7 +57,8 @@ jobs:
           fi
 
       - name: Unit Test
-        run: ./vendor/bin/phpunit --testsuite Feature
+        run: ./vendor/bin/phpunit
+        # run: ./vendor/bin/phpunit --testsuite Feature
 
   ContinuousDeployment:
     name: Deploy To Server
