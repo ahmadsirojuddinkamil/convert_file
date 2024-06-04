@@ -2,6 +2,7 @@
 
 namespace Modules\Png\tests\Feature\PngToPdf;
 
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Pdf\App\Models\Pdf;
@@ -12,16 +13,17 @@ class PngToPdfDownloadTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
+
     public function test_download_result_png_to_pdf_success(): void
     {
-        $png = Png::create([
-            'jpg_uuid' => null,
-            'pdf_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-        ]);
+        $png = Png::pngOwnerFactory()->create();
 
         $pdf = Pdf::create([
             'jpg_uuid' => null,
@@ -36,6 +38,13 @@ class PngToPdfDownloadTest extends TestCase
         $response = $this->get("/png-to-pdf/$pdf->uuid/download");
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'application/pdf');
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully downloads the png to pdf conversion result with pdf uuid:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_download_result_png_to_pdf_failed_because_not_uuid(): void

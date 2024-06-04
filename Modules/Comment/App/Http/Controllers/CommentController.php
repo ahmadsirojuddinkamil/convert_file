@@ -2,9 +2,9 @@
 
 namespace Modules\Comment\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Modules\Comment\App\Http\Requests\CreateCommentRequest;
 use Modules\Comment\App\Models\Comment;
+use App\Http\Controllers\Controller;
 use Ramsey\Uuid\Uuid;
 
 class CommentController extends Controller
@@ -19,8 +19,6 @@ class CommentController extends Controller
             'comment' => $validateData['comment'],
             'star' => $validateData['star'],
         ]);
-
-        // return 'success';
 
         return redirect('/')->with([
             'success' => 'Comment anda berhasil dibuat!'

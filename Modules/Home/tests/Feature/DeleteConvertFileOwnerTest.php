@@ -2,9 +2,9 @@
 
 namespace Modules\Home\tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Png\App\Models\Png;
 use Ramsey\Uuid\Uuid;

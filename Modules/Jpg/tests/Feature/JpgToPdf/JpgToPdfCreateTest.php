@@ -2,15 +2,24 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPdf;
 
-use Tests\TestCase;
+use Modules\Utility\App\Services\LoggingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Modules\Pdf\App\Models\Pdf;
+use Tests\TestCase;
 
 class JpgToPdfCreateTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_create_jpg_to_pdf_success(): void
     {
@@ -32,6 +41,13 @@ class JpgToPdfCreateTest extends TestCase
         $response->assertStatus(302);
         $this->assertTrue(session()->has('success'));
         $this->assertEquals('File jpg berhasil di convert ke pdf!', session('success'));
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully convert jpg to pdf:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_create_jpg_to_pdf_failed_because_form_is_empty(): void

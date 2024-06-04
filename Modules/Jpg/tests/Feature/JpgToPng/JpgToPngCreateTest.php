@@ -2,6 +2,7 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPng;
 
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -11,6 +12,14 @@ use Modules\Png\App\Models\Png;
 class JpgToPngCreateTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
 
     public function test_create_jpg_to_png_success(): void
     {
@@ -40,6 +49,13 @@ class JpgToPngCreateTest extends TestCase
         $response->assertStatus(302);
         $this->assertTrue(session()->has('success'));
         $this->assertEquals('File jpg berhasil di convert ke png!', session('success'));
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully convert jpg to png:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_create_jpg_to_png_failed_because_form_is_empty(): void

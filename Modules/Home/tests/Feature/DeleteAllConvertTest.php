@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Jpg\App\Models\Jpg;
+use Modules\Png\App\Models\Png;
 use Ramsey\Uuid\Uuid;
 
 class DeleteAllConvertTest extends TestCase
@@ -14,10 +15,12 @@ class DeleteAllConvertTest extends TestCase
 
     public function test_delete_all_convert_file_above_10_minute_success(): void
     {
-        $twentyMinutesAgo = Carbon::now()->addMinutes(20);
+        $twentyMinutesAgo = Carbon::now()->subMinutes(20);
 
-        Jpg::create([
-            'png_uuid' => null,
+        $jpg = Jpg::jpgOwnerFactory()->create();
+
+        Png::create([
+            'jpg_uuid' => $jpg->uuid,
             'pdf_uuid' => null,
             'uuid' => Uuid::uuid4()->toString(),
             'owner' => Uuid::uuid4()->toString(),

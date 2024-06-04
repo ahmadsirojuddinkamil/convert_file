@@ -4,6 +4,7 @@ namespace Modules\Jpg\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Jpg\Database\Factories\JpgOwnerFactory;
 // use Modules\Jpg\Database\factories\JpgFactory;
 use Modules\Pdf\App\Models\Pdf;
 use Modules\Png\App\Models\Png;
@@ -25,10 +26,10 @@ class Jpg extends Model
         'created_at',
     ];
 
-    // protected static function newFactory(): JpgFactory
-    // {
-    //     return JpgFactory::new();
-    // }
+    protected static function jpgOwnerFactory(): JpgOwnerFactory
+    {
+        return JpgOwnerFactory::new();
+    }
 
     // Relationships
     public function pngs()

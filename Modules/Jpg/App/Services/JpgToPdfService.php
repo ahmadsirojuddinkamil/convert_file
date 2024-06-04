@@ -3,12 +3,12 @@
 namespace Modules\Jpg\App\Services;
 
 use Barryvdh\DomPDF\Facade\Pdf as DomPDF;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Pdf\App\Models\Pdf;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class JpgToPdfService
 {
