@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Branch2\App\Providers;
+namespace Modules\Branch3\App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class Branch2ServiceProvider extends ServiceProvider
+class Branch3ServiceProvider extends ServiceProvider
 {
-    protected string $moduleName = 'Branch2';
+    protected string $moduleName = 'Branch3';
 
-    protected string $moduleNameLower = 'branch2';
+    protected string $moduleNameLower = 'branch3';
 
     /**
      * Boot the application events.
