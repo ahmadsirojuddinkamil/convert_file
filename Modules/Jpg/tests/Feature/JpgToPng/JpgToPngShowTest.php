@@ -2,6 +2,7 @@
 
 namespace Modules\Jpg\tests\Feature\JpgToPng;
 
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,14 @@ class JpgToPngShowTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
+
     public function test_show_jpg_to_png_success(): void
     {
         $directory = storage_path('app/public/document_jpg_to_png/');
@@ -22,14 +31,7 @@ class JpgToPngShowTest extends TestCase
         $imageContent = '';
         file_put_contents($filePath, $imageContent);
 
-        $jpg = Jpg::create([
-            'png_uuid' => null,
-            'pdf_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-        ]);
+        $jpg = Jpg::jpgOwnerFactory()->create();
 
         Png::create([
             'jpg_uuid' => $jpg->uuid,
@@ -55,6 +57,13 @@ class JpgToPngShowTest extends TestCase
         $pngFiles = $response->original->getData()['pngFiles'];
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $pngFiles);
         $this->assertGreaterThan(0, $pngFiles->count());
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully viewed jpg to png data with uuid jpg: ';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_show_jpg_to_png_failed_because_not_uuid(): void

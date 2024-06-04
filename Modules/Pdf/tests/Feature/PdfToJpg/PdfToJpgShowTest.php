@@ -2,6 +2,7 @@
 
 namespace Modules\Pdf\tests\Feature\PdfToJpg;
 
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,14 @@ class PdfToJpgShowTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
+
     public function test_show_pdf_to_jpg_success(): void
     {
         $directory = storage_path('app/public/document_pdf_to_jpg/');
@@ -21,15 +30,7 @@ class PdfToJpgShowTest extends TestCase
         $imageContent = '';
         file_put_contents($filePath, $imageContent);
 
-        $pdf = Pdf::create([
-            'jpg_uuid' => null,
-            'png_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-            'preview' => null,
-        ]);
+        $pdf = Pdf::pdfOwnerFactory()->create();
 
         Jpg::create([
             'png_uuid' => null,
@@ -55,6 +56,13 @@ class PdfToJpgShowTest extends TestCase
         $jpgFiles = $response->original->getData()['jpgFiles'];
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $jpgFiles);
         $this->assertGreaterThan(0, $jpgFiles->count());
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully viewed pdf to jpg data with uuid pdf: ';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_show_pdf_to_jpg_failed_because_not_uuid(): void

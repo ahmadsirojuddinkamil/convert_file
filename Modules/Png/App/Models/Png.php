@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Jpg\App\Models\Jpg;
 use Modules\Pdf\App\Models\Pdf;
-use Modules\Png\Database\factories\PngFactory;
+use Modules\Png\Database\Factories\PngOwnerFactory;
 
 class Png extends Model
 {
@@ -25,10 +25,10 @@ class Png extends Model
         'created_at',
     ];
 
-    // protected static function newFactory(): PngFactory
-    // {
-    //     //return PngFactory::new();
-    // }
+    protected static function pngOwnerFactory(): PngOwnerFactory
+    {
+        return PngOwnerFactory::new();
+    }
 
     // Relationships
     public function jpgs()

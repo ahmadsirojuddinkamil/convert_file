@@ -2,6 +2,7 @@
 
 namespace Modules\Png\tests\Feature;
 
+use Modules\Utility\App\Services\LoggingService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Jpg\App\Models\Jpg;
@@ -12,16 +13,17 @@ class PngToJpgDownloadTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $logging;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->logging = new LoggingService();
+    }
+
     public function test_download_result_png_to_jpg_success(): void
     {
-        $png = Png::create([
-            'jpg_uuid' => null,
-            'pdf_uuid' => null,
-            'uuid' => Uuid::uuid4()->toString(),
-            'owner' => Uuid::uuid4()->toString(),
-            'file' => null,
-            'name' => null,
-        ]);
+        $png = Png::pngOwnerFactory()->create();
 
         $jpg = Jpg::create([
             'png_uuid' => $png->uuid,
@@ -35,6 +37,13 @@ class PngToJpgDownloadTest extends TestCase
         $response = $this->get("/png-to-jpg/$jpg->uuid/download");
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'image/jpeg');
+
+        $logContent = file_get_contents(storage_path('logs/laravel.log'));
+        $expectedLogText = 'user successfully downloads the png to jpg conversion result with jpg uuid:';
+        $this->assertStringContainsString($expectedLogText, $logContent);
+
+        $result = $this->logging->removeLogTesting();
+        $this->assertEquals('Log testing success deleted!', $result);
     }
 
     public function test_download_result_png_to_jpg_failed_because_not_uuid(): void

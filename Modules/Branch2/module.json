@@ -1,0 +1,11 @@
+{
+    "name": "Branch2",
+    "alias": "branch2",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Branch2\\App\\Providers\\Branch2ServiceProvider"
+    ],
+    "files": []
+}

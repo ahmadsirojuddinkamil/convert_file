@@ -3,5 +3,9 @@
     "Home": true,
     "Png": true,
     "Pdf": true,
-    "Comment": true
+    "Comment": true,
+    "Monitoring": true,
+    "Utility": true,
+    "Branch": true,
+    "Branch2": true
 }
