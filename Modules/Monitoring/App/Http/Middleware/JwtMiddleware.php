@@ -2,9 +2,9 @@
 
 namespace Modules\Monitoring\App\Http\Middleware;
 
-use Closure;
 use Firebase\JWT\{BeforeValidException, ExpiredException, JWT, Key, SignatureInvalidException};
 use Illuminate\Http\Request;
+use Closure;
 
 class JwtMiddleware
 {
@@ -26,10 +26,8 @@ class JwtMiddleware
             return response()->json(['message' => 'Invalid JWT format!'], 401);
         }
 
-        $secretKey = env('JWT_SECRET_MONITORING');
-
         try {
-            JWT::decode($jwtToken, new Key($secretKey, 'HS256'));
+            JWT::decode($token, new Key(env('JWT_SECRET_MONITORING'), 'HS256'));
             return $next($request);
         } catch (ExpiredException $error) {
             return response()->json(['error' => 'Token is expired'], 401);

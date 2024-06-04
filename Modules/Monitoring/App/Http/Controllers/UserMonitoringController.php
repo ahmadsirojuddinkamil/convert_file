@@ -80,7 +80,10 @@ class UserMonitoringController extends Controller
                 'expiry_time' => $expiryTime,
             ];
 
-            return response()->json(['message' => 'Login successful!', 'token' => $token, 'token_time' => $tokenTime], 200);
+            return response()->json([
+                'message' => 'Login successful!', 'token' => $token,
+                'token_time' => $tokenTime
+            ], 200);
         }
 
         return response()->json(['message' => 'Invalid credentials!'], 401);
