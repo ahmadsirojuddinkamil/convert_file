@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Branch2\App\Http\Controllers\Branch2Controller;
+use Modules\Branch3\App\Http\Controllers\Branch3Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +15,5 @@ use Modules\Branch2\App\Http\Controllers\Branch2Controller;
 */
 
 Route::group([], function () {
-    Route::resource('branch2', Branch2Controller::class)->names('branch2');
+    Route::resource('branch3', Branch3Controller::class)->names('branch3');
 });

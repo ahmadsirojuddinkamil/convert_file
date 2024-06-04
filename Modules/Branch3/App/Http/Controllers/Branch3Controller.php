@@ -1,20 +1,20 @@
 <?php
 
-namespace Modules\Branch2\App\Http\Controllers;
+namespace Modules\Branch3\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class Branch2Controller extends Controller
+class Branch3Controller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('branch2::index');
+        return view('branch3::index');
     }
 
     /**
@@ -22,7 +22,7 @@ class Branch2Controller extends Controller
      */
     public function create()
     {
-        return view('branch2::create');
+        return view('branch3::create');
     }
 
     /**
@@ -38,7 +38,7 @@ class Branch2Controller extends Controller
      */
     public function show($id)
     {
-        return view('branch2::show');
+        return view('branch3::show');
     }
 
     /**
@@ -46,7 +46,7 @@ class Branch2Controller extends Controller
      */
     public function edit($id)
     {
-        return view('branch2::edit');
+        return view('branch3::edit');
     }
 
     /**
