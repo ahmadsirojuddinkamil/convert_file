@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
-    Route::get('branch', fn (Request $request) => $request->user())->name('branch');
+    Route::get('branch2', fn (Request $request) => $request->user())->name('branch2');
 });

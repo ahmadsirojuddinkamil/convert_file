@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Branch\App\Providers;
+namespace Modules\Branch2\App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -10,7 +10,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The module namespace to assume when generating URLs to actions.
      */
-    protected string $moduleNamespace = 'Modules\Branch\App\Http\Controllers';
+    protected string $moduleNamespace = 'Modules\Branch2\App\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Branch', '/routes/web.php'));
+            ->group(module_path('Branch2', '/routes/web.php'));
     }
 
     /**
@@ -54,6 +54,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('Branch', '/routes/api.php'));
+            ->group(module_path('Branch2', '/routes/api.php'));
     }
 }

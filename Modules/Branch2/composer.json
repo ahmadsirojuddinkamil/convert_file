@@ -1,5 +1,5 @@
 {
-    "name": "nwidart/branch",
+    "name": "nwidart/branch2",
     "description": "",
     "authors": [
         {
@@ -17,15 +17,15 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Branch\\": "",
-            "Modules\\Branch\\App\\": "app/",
-            "Modules\\Branch\\Database\\Factories\\": "database/factories/",
-            "Modules\\Branch\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\Branch2\\": "",
+            "Modules\\Branch2\\App\\": "app/",
+            "Modules\\Branch2\\Database\\Factories\\": "database/factories/",
+            "Modules\\Branch2\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\Branch\\Tests\\": "tests/"
+            "Modules\\Branch2\\Tests\\": "tests/"
         }
     }
 }

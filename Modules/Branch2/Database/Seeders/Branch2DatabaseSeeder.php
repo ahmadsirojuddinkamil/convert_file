@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Branch\Database\Seeders;
+namespace Modules\Branch2\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class BranchDatabaseSeeder extends Seeder
+class Branch2DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
